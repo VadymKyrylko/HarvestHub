@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>{{ object.name }}</h1>
+    <p><strong>Area:</strong> {{ object.area }} m²</p>
+    <p><strong>Max Plants:</strong> {{ object.max_plants }}</p>
+
+    <a href="{% url 'plants:bed_update' object.pk %}" class="btn btn-warning">Edit</a>
+    <a href="{% url 'plants:bed_delete' object.pk %}" class="btn btn-danger">Delete</a>
+    <a href="{% url 'plants:bed_list' %}" class="btn btn-secondary">Back to List</a>
+</div>
+{% endblock %}

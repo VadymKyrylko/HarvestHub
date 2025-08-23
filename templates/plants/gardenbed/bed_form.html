@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>{{ view.object.pk|yesno:"Edit Garden Bed,Add New Garden Bed" }}</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        {% if form.instance.length and form.instance.width %}
+            <p><strong>Area:</strong> {{ form.instance.area }} m²</p>
+        {% endif %}
+
+        <button type="submit" class="btn btn-success">Save</button>
+        <a href="{% url 'plants:bed_list' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}
