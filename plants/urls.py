@@ -24,4 +24,4 @@ urlpatterns = [
     path("sections/<int:pk>/delete/", views.BedSectionDeleteView.as_view(), name="section_delete"),
 ]
 
-app_name = "garden"
+app_name = "plants"

@@ -32,13 +32,13 @@ class GardenBedDetailView(BaseDetailView):
 
 class GardenBedCreateView(BaseCreateView):
     model = GardenBed
-    fields = ["name", "area"]
+    fields = ["name", "length", "width"]
     template_name = "plants/gardenbed/bed_form.html"
     success_url = reverse_lazy("plants:bed_list")
 
 class GardenBedUpdateView(BaseUpdateView):
     model = GardenBed
-    fields = ["name", "area"]
+    fields = ["name", "length", "width"]
     template_name = "plants/gardenbed/bed_form.html"
     success_url = reverse_lazy("plants:bed_list")
 
