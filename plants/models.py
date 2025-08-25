@@ -5,6 +5,7 @@ class GardenBed(models.Model):
     name = models.CharField(max_length=100)
     length = models.DecimalField(max_digits=5, decimal_places=2)  # m
     width = models.DecimalField(max_digits=5, decimal_places=2)   # m
+    is_processed = models.BooleanField(default=False)
 
     @property
     def area(self):

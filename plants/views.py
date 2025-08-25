@@ -58,13 +58,13 @@ class PlantDetailView(BaseDetailView):
 
 class PlantCreateView(BaseCreateView):
     model = Plant
-    fields = ["name", "space_per_plant"]
+    fields = ["name", "plant_type", "space_per_plant"]
     template_name = "plants/plant/plant_form.html"
     success_url = reverse_lazy("plants:plant_list")
 
 class PlantUpdateView(BaseUpdateView):
     model = Plant
-    fields = ["name", "space_per_plant"]
+    fields = ["name", "plant_type", "space_per_plant"]
     template_name = "plants/plant/plant_form.html"
     success_url = reverse_lazy("plants:plant_list")
 
