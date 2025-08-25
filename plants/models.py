@@ -23,6 +23,14 @@ class BedSection(models.Model):
     bed = models.ForeignKey(GardenBed, on_delete=models.CASCADE, related_name="sections")
     plant = models.ForeignKey(Plant, on_delete=models.CASCADE)
     plant_count = models.PositiveIntegerField()
+    length = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    width = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+
+    @property
+    def allocated_area(self):
+        if self.length and self.width:
+            return self.length * self.width
+        return None
 
     @property
     def required_area(self):
@@ -31,6 +39,6 @@ class BedSection(models.Model):
     def clean(self):
         if self.required_area > self.bed.area:
             raise ValidationError(
-                f"Not enough area: need {self.required_area} м², "
-                f"and the bed has only {self.bed.area} м²."
+                f"Not enough area: need {self.required_area} m², "
+                f"and the bed has only {self.bed.area} m²."
             )

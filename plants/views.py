@@ -58,13 +58,13 @@ class PlantDetailView(BaseDetailView):
 
 class PlantCreateView(BaseCreateView):
     model = Plant
-    fields = ["name", "type", "spacing"]
+    fields = ["name", "space_per_plant"]
     template_name = "plants/plant/plant_form.html"
     success_url = reverse_lazy("plants:plant_list")
 
 class PlantUpdateView(BaseUpdateView):
     model = Plant
-    fields = ["name", "type", "spacing"]
+    fields = ["name", "space_per_plant"]
     template_name = "plants/plant/plant_form.html"
     success_url = reverse_lazy("plants:plant_list")
 
@@ -73,10 +73,19 @@ class PlantDeleteView(BaseDeleteView):
     template_name = "plants/plant/plant_confirm_delete.html"
     success_url = reverse_lazy("plants:plant_list")
 
-class BedSectionListView(BaseListView):
+
+class BedSectionListView(ListView):
     model = BedSection
-    context_object_name = "sections"
     template_name = "plants/section/section_list.html"
+    context_object_name = "object_list"
+    paginate_by = 10
+
+    def get_queryset(self):
+        return (
+            BedSection.objects
+            .select_related("bed", "plant")
+            .order_by("bed__name", "plant__name")
+        )
 
 class BedSectionDetailView(BaseDetailView):
     model = BedSection
@@ -84,13 +93,13 @@ class BedSectionDetailView(BaseDetailView):
 
 class BedSectionCreateView(BaseCreateView):
     model = BedSection
-    fields = ["garden_bed", "name", "area"]
+    fields = ["bed", "plant", "plant_count"]
     template_name = "plants/section/section_form.html"
     success_url = reverse_lazy("plants:section_list")
 
 class BedSectionUpdateView(BaseUpdateView):
     model = BedSection
-    fields = ["garden_bed", "name", "area"]
+    fields = ["bed", "plant", "plant_count"]
     template_name = "plants/section/section_form.html"
     success_url = reverse_lazy("plants:section_list")
 
