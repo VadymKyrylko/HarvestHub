@@ -9,7 +9,6 @@
             <tr>
                 <th>Name</th>
                 <th>Area (m²)</th>
-                <th>Max Plants</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -18,7 +17,6 @@
             <tr>
                 <td>{{ bed.name }}</td>
                 <td>{{ bed.area }}</td>
-                <td>{{ bed.max_plants }}</td>
                 <td>
                     <a href="{% url 'plants:bed_detail' bed.pk %}" class="btn btn-sm btn-info">View</a>
                     <a href="{% url 'plants:bed_update' bed.pk %}" class="btn btn-sm btn-warning">Edit</a>

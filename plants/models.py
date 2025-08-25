@@ -21,7 +21,7 @@ class Plant(models.Model):
 
 class BedSection(models.Model):
     bed = models.ForeignKey(GardenBed, on_delete=models.CASCADE, related_name="sections")
-    plant = models.ForeignKey(Plant, on_delete=models.CASCADE)
+    plant = models.ForeignKey(Plant, on_delete=models.CASCADE, null=True, blank=True, related_name="sections")
     plant_count = models.PositiveIntegerField()
     length = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
     width = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
