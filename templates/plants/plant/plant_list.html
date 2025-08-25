@@ -8,6 +8,7 @@
       <thead>
       <tr>
         <th>Name</th>
+        <th>Type</th>
         <th>Space per plant (m²)</th>
         <th>Actions</th>
       </tr>
@@ -16,6 +17,7 @@
       {% for plant in plants %}
         <tr>
           <td>{{ plant.name }}</td>
+          <td>{{ plant.get_plant_type_display }}</td>
           <td>{{ plant.space_per_plant }}</td>
           <td>
             <a href="{% url 'plants:plant_detail' plant.pk %}" class="btn btn-sm btn-info">View</a>
@@ -25,7 +27,7 @@
         </tr>
       {% empty %}
         <tr>
-          <td colspan="3">No plants found.</td>
+          <td colspan="4">No plants found.</td>
         </tr>
       {% endfor %}
       </tbody>

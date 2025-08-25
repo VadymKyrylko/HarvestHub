@@ -10,13 +10,28 @@ class GardenBed(models.Model):
     def area(self):
         return self.length * self.width  # m²
 
-
 class Plant(models.Model):
+    class PlantType(models.TextChoices):
+        VEGETABLE = "VEG", "Vegetable"
+        HERB = "HERB", "Herb"
+        BERRY = "BERRY", "Berry"
+        FLOWER = "FLOWER", "Flower"
+
+
     name = models.CharField(max_length=100)
+    plant_type = models.CharField(
+        max_length=10,
+        choices=PlantType.choices,
+        default=PlantType.VEGETABLE
+    )
     space_per_plant = models.DecimalField(
         max_digits=5, decimal_places=2,
         help_text="Required area for one plant, m²"
     )
+
+
+    def __str__(self):
+        return f"{self.name} ({self.get_plant_type_display()})"
 
 
 class BedSection(models.Model):
