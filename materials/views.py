@@ -1,3 +1,26 @@
-from django.shortcuts import render
+from django.urls import reverse_lazy
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from .models import Material
+from .forms import MaterialForm
 
-# Create your views here.
+class MaterialListView(ListView):
+    model = Material
+    template_name = "materials/material_list.html"
+    context_object_name = "materials"
+
+class MaterialCreateView(CreateView):
+    model = Material
+    form_class = MaterialForm
+    template_name = "materials/material_form.html"
+    success_url = reverse_lazy("materials:material_list")
+
+class MaterialUpdateView(UpdateView):
+    model = Material
+    form_class = MaterialForm
+    template_name = "materials/material_form.html"
+    success_url = reverse_lazy("materials:material_list")
+
+class MaterialDeleteView(DeleteView):
+    model = Material
+    template_name = "materials/material_confirm_delete.html"
+    success_url = reverse_lazy("materials:material_list")
