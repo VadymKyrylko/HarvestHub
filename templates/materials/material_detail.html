@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="container mt-4">
+    <h1>{{ material.name }}</h1>
+    <p><strong>Unit:</strong> {{ material.unit }}</p>
+
+    <h3>Used in Tasks</h3>
+    <ul>
+      {% for mu in tasks %}
+        <li>
+          <a href="{% url 'tasks:task_detail' mu.task.pk %}">{{ mu.task.name }}</a>
+          — {{ mu.quantity_used }} {{ material.unit }}
+        </li>
+      {% empty %}
+        <li>Not used in any tasks.</li>
+      {% endfor %}
+    </ul>
+
+    <a href="{% url 'materials:material_edit' material.pk %}" class="btn btn-warning">Edit</a>
+    <a href="{% url 'materials:material_delete' material.pk %}" class="btn btn-danger">Delete</a>
+    <a href="{% url 'materials:material_list' %}" class="btn btn-secondary">Back to List</a>
+  </div>
+{% endblock %}
