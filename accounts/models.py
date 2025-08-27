@@ -8,6 +8,7 @@ class UserManager(BaseUserManager):
         if not username:
             raise ValueError("The Username field must be set")
         extra_fields.setdefault("role", User.Role.WORKER)
+        extra_fields.setdefault("is_active", True)
         user = self.model(username=username, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
@@ -37,7 +38,8 @@ class User(AbstractUser):
         choices=Role.choices,
         default=Role.WORKER
     )
+
     def __str__(self):
-        return self.username
+        return f"{self.username} ({self.get_role_display()})"
 
     objects = UserManager()
