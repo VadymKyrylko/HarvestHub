@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="container mt-4">
+    <h1>{{ view.object.pk|yesno:"Edit Tool,Add New Tool" }}</h1>
+    <form method="post">
+      {% csrf_token %}
+
+      {% include "includes/form_fields.html" with form=form %}
+
+      <button type="submit" class="btn btn-success">Save</button>
+      <a href="{% url 'tools:tool_list' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+  </div>
+{% endblock %}

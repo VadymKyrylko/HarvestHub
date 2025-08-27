@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="container mt-4">
+    <h1>Tools</h1>
+    <a href="{% url 'tools:tool_add' %}" class="btn btn-primary mb-3">Add New Tool</a>
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Status</th>
+        <th>Checked Out</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for tool in tools %}
+        <tr>
+          <td>{{ tool.name }}</td>
+          <td>{{ tool.get_status_display }}</td>
+          <td>{% if tool.is_checked_out %}Yes{% else %}No{% endif %}</td>
+          <td>
+            <a href="{% url 'tools:tool_edit' tool.pk %}" class="btn btn-sm btn-warning">Edit</a>
+            <a href="{% url 'tools:tool_delete' tool.pk %}" class="btn btn-sm btn-danger">Delete</a>
+          </td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="4">No tools found.</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}
