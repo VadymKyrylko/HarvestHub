@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="container mt-4">
+    <h1>Maintenance Tasks</h1>
+
+    <a href="{% url 'tasks:task_add' %}" class="btn btn-primary mb-3">Add New Task</a>
+
+    <form method="get" class="row g-3 mb-4">
+      {% for field in filter.form %}
+        <div class="col-md-3">
+          {{ field.label_tag }}
+          {% if field.name in "scheduled_at__gte scheduled_at__lte" %}
+            {{ field }}
+          {% else %}
+            {{ field }}
+          {% endif %}
+          {% if field.name == "scheduled_at__gte" %}
+            <small class="form-text text-muted">
+              Show tasks scheduled <strong>starting from this date</strong> (Scheduled At).
+            </small>
+          {% elif field.name == "scheduled_at__lte" %}
+            <small class="form-text text-muted">
+              Show tasks scheduled <strong>up to this date</strong> (Scheduled At).
+            </small>
+          {% endif %}
+        </div>
+      {% endfor %}
+      <div class="col-md-12">
+        <button type="submit" class="btn btn-primary">Filter</button>
+        <a href="{% url 'tasks:task_list' %}" class="btn btn-secondary">Reset</a>
+      </div>
+    </form>
+
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Status</th>
+        <th>Scheduled At</th>
+        <th>Assigned To</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for task in tasks %}
+        <tr>
+          <td>
+            <a href="{% url 'tasks:task_detail' task.pk %}">
+              {{ task.name }}
+            </a>
+          </td>
+          <td>{{ task.get_status_display }}</td>
+          <td>{{ task.scheduled_at|date:"Y-m-d H:i" }}</td>
+          <td>{{ task.assigned_to|default:"—" }}</td>
+          <td>
+            <a href="{% url 'tasks:task_edit' task.pk %}" class="btn btn-sm btn-warning">Edit</a>
+            <a href="{% url 'tasks:task_delete' task.pk %}" class="btn btn-sm btn-danger">Delete</a>
+          </td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="5">No tasks found.</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}
