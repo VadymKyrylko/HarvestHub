@@ -79,7 +79,7 @@ class BedSection(models.Model):
     class Meta:
         verbose_name = "Bed Section"
         verbose_name_plural = "Bed Sections"
-        ordering = ["name"]
+        ordering = ["bed", "plant"]
 
     def __str__(self):
         return f"{self.bed.name} - {self.plant.name if self.plant else 'Empty'}"
