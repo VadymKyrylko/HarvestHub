@@ -1,21 +1,21 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container mt-4">
-  <h1>Section in {{ object.bed.name }}</h1>
+  <div class="container mt-4">
+    <h1>Section in {{ object.bed.name }}</h1>
 
-  <p><strong>Plant:</strong> {{ object.plant.name }}</p>
-  <p><strong>Plant count:</strong> {{ object.plant_count }} pcs.</p>
-  <p><strong>Required area:</strong> {{ object.required_area }} m²</p>
+    <p><strong>Plant:</strong> {{ object.plant.name }}</p>
+    <p><strong>Plant count:</strong> {{ object.plant_count }} pcs.</p>
+    <p><strong>Required area:</strong> {{ object.required_area }} m²</p>
 
-  {% if object.length and object.width %}
-    <p><strong>Length:</strong> {{ object.length }} m</p>
-    <p><strong>Width:</strong> {{ object.width }} m</p>
-    <p><strong>Actual area:</strong> {{ object.area }} m²</p>
-  {% endif %}
+    {% if object.length and object.width %}
+      <p><strong>Length:</strong> {{ object.length }} m</p>
+      <p><strong>Width:</strong> {{ object.width }} m</p>
+      <p><strong>Actual area:</strong> {{ object.area }} m²</p>
+    {% endif %}
 
-  <a href="{% url 'plants:section_update' object.pk %}" class="btn btn-warning">Edit</a>
-  <a href="{% url 'plants:section_delete' object.pk %}" class="btn btn-danger">Delete</a>
-  <a href="{% url 'plants:bed_detail' object.bed.pk %}" class="btn btn-secondary">Back to Bed</a>
-</div>
+    <a href="{% url 'plants:section_update' object.pk %}" class="btn btn-warning">Edit</a>
+    <a href="{% url 'plants:section_delete' object.pk %}" class="btn btn-danger">Delete</a>
+    <a href="{% url 'plants:bed_detail' object.bed.pk %}" class="btn btn-secondary">Back to Bed</a>
+  </div>
 {% endblock %}
