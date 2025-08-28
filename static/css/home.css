@@ -1,0 +1,11 @@
+body {
+    background: url("../images/Garden.png") no-repeat center center fixed;
+    background-size: cover;
+}
+
+.home-overlay {
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 2rem;
+    border-radius: 10px;
+    color: #fff;
+}
