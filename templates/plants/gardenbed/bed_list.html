@@ -8,6 +8,8 @@
       <thead>
       <tr>
         <th>Name</th>
+        <th>Length</th>
+        <th>Width</th>
         <th>Area (m²)</th>
         <th>Actions</th>
       </tr>
@@ -16,6 +18,8 @@
       {% for bed in object_list %}
         <tr>
           <td>{{ bed.name }}</td>
+          <td>{{ bed.length }}</td>
+          <td>{{ bed.width }}</td>
           <td>{{ bed.area }}</td>
           <td>
             <a href="{% url 'plants:bed_detail' bed.pk %}" class="btn btn-sm btn-info">View</a>
