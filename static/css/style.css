@@ -35,3 +35,25 @@ h1, h2, h3, h4, h5, h6 {
 .lead, p {
     color: #f1f1f1;
 }
+
+.register-card,
+.register-card label,
+.register-card p,
+.register-card a,
+.register-card input,
+.register-card select,
+.register-card textarea {
+    color: #000000 !important;
+}
+
+.logout-btn-red {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.logout-btn-red:hover {
+    background-color: #a71d2a;
+    color: #fff;
+}
