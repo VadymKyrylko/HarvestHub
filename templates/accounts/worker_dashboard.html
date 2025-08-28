@@ -5,5 +5,10 @@
 {% block content %}
   <h2>Hello, {{ user.username }}!</h2>
   <p>This is your worker panel. This is where you will find tools for working with beds, plants, and tasks.</p>
-  <a href="{% url 'logout' %}">Logout</a>
+<form action="{% url 'logout' %}" method="post" class="d-inline">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-outline-danger btn-sm">
+        <i class="bi bi-box-arrow-right"></i> Logout
+    </button>
+</form>
 {% endblock %}
