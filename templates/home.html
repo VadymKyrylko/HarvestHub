@@ -51,7 +51,7 @@
   <div class="mt-5 text-center">
     {% if not user.is_authenticated %}
       <a href="{% url 'login' %}" class="btn btn-primary btn-lg me-2">🔑 Login</a>
-      <a href="{% url 'register' %}" class="btn btn-outline-secondary btn-lg">📝 Register</a>
+      <a href="{% url 'register' %}" class="btn btn-lg home-register-btn">📝 Register</a>
     {% else %}
       <a href="{% url 'plants:bed_list' %}" class="btn btn-success btn-lg">🚀 Let's Start</a>
     {% endif %}
