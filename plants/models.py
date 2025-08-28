@@ -3,6 +3,7 @@ from django.core.validators import MinValueValidator
 from django.db import models
 from django.db.models import Sum
 
+
 class GardenBed(models.Model):
     name = models.CharField(max_length=100)
     length = models.DecimalField(
@@ -111,8 +112,13 @@ class BedSection(models.Model):
             BedSection.objects
             .filter(bed=self.bed)
             .exclude(pk=self.pk)
-            .aggregate(total=Sum(models.F("plant_count") * models.F("plant__space_per_plant")))
-        )["total"] or 0
+            .aggregate(
+                total=Sum(
+                    models.F("plant_count") *
+                    models.F("plant__space_per_plant")
+                )
+            )
+                         )["total"] or 0
 
         total_after_add = total_existing + self.required_area
 
@@ -133,4 +139,5 @@ class BedSection(models.Model):
         ordering = ["bed", "plant"]
 
     def __str__(self):
-        return f"{self.bed.name} - {self.plant.name if self.plant else 'Empty'}"
+        return (f"{self.bed.name} - "
+                f"{self.plant.name if self.plant else 'Empty'}")

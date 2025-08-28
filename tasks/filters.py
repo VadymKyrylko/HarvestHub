@@ -1,6 +1,7 @@
 import django_filters
 from .models import MaintenanceTask
 
+
 class MaintenanceTaskFilter(django_filters.FilterSet):
     scheduled_at__gte = django_filters.DateFilter(
         field_name="scheduled_at",
@@ -29,5 +30,9 @@ class MaintenanceTaskFilter(django_filters.FilterSet):
             "class": "form-control"
         })
 
-        self.form.fields["status"].widget.attrs.update({"class": "form-control"})
-        self.form.fields["assigned_to"].widget.attrs.update({"class": "form-control"})
+        self.form.fields[
+            "status"
+        ].widget.attrs.update({"class": "form-control"})
+        self.form.fields[
+            "assigned_to"
+        ].widget.attrs.update({"class": "form-control"})

@@ -1,6 +1,7 @@
 from django.contrib import admin
 from .models import GardenBed, Plant, BedSection
 
+
 @admin.register(GardenBed)
 class GardenBedAdmin(admin.ModelAdmin):
     list_display = ("name", "length", "width", "area")
@@ -25,7 +26,13 @@ class PlantAdmin(admin.ModelAdmin):
 
 @admin.register(BedSection)
 class BedSectionAdmin(admin.ModelAdmin):
-    list_display = ("bed", "plant", "plant_count", "required_area", "max_possible_plants")
+    list_display = (
+        "bed",
+        "plant",
+        "plant_count",
+        "required_area",
+        "max_possible_plants"
+    )
     list_filter = ("bed", "plant")
 
     @admin.display(description="Required area (m²)")

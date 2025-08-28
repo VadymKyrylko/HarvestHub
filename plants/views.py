@@ -1,6 +1,13 @@
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from .models import GardenBed, Plant, BedSection
+from django.views.generic import (
+    ListView,
+    DetailView,
+    CreateView,
+    UpdateView,
+    DeleteView
+)
+from plants.models import GardenBed, Plant, BedSection
+
 
 class BaseListView(ListView):
     context_object_name = "objects"
@@ -21,14 +28,17 @@ class BaseUpdateView(UpdateView):
 class BaseDeleteView(DeleteView):
     success_url = None
 
+
 class GardenBedListView(BaseListView):
     model = GardenBed
     context_object_name = "garden_beds"
     template_name = "plants/gardenbed/bed_list.html"
 
+
 class GardenBedDetailView(BaseDetailView):
     model = GardenBed
     template_name = "plants/gardenbed/bed_detail.html"
+
 
 class GardenBedCreateView(BaseCreateView):
     model = GardenBed
@@ -36,25 +46,30 @@ class GardenBedCreateView(BaseCreateView):
     template_name = "plants/gardenbed/bed_form.html"
     success_url = reverse_lazy("plants:bed_list")
 
+
 class GardenBedUpdateView(BaseUpdateView):
     model = GardenBed
     fields = ["name", "length", "width"]
     template_name = "plants/gardenbed/bed_form.html"
     success_url = reverse_lazy("plants:bed_list")
 
+
 class GardenBedDeleteView(BaseDeleteView):
     model = GardenBed
     template_name = "plants/gardenbed/bed_confirm_delete.html"
     success_url = reverse_lazy("plants:bed_list")
+
 
 class PlantListView(BaseListView):
     model = Plant
     context_object_name = "plants"
     template_name = "plants/plant/plant_list.html"
 
+
 class PlantDetailView(BaseDetailView):
     model = Plant
     template_name = "plants/plant/plant_detail.html"
+
 
 class PlantCreateView(BaseCreateView):
     model = Plant
@@ -62,11 +77,13 @@ class PlantCreateView(BaseCreateView):
     template_name = "plants/plant/plant_form.html"
     success_url = reverse_lazy("plants:plant_list")
 
+
 class PlantUpdateView(BaseUpdateView):
     model = Plant
     fields = ["name", "plant_type", "space_per_plant"]
     template_name = "plants/plant/plant_form.html"
     success_url = reverse_lazy("plants:plant_list")
+
 
 class PlantDeleteView(BaseDeleteView):
     model = Plant
@@ -87,9 +104,11 @@ class BedSectionListView(ListView):
             .order_by("bed__name", "plant__name")
         )
 
+
 class BedSectionDetailView(BaseDetailView):
     model = BedSection
     template_name = "plants/section/section_detail.html"
+
 
 class BedSectionCreateView(BaseCreateView):
     model = BedSection
@@ -97,11 +116,13 @@ class BedSectionCreateView(BaseCreateView):
     template_name = "plants/section/section_form.html"
     success_url = reverse_lazy("plants:section_list")
 
+
 class BedSectionUpdateView(BaseUpdateView):
     model = BedSection
     fields = ["bed", "plant", "plant_count"]
     template_name = "plants/section/section_form.html"
     success_url = reverse_lazy("plants:section_list")
+
 
 class BedSectionDeleteView(BaseDeleteView):
     model = BedSection

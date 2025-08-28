@@ -51,7 +51,8 @@ class MaintenanceTask(models.Model):
                 )
                 if conflict_exists or tool.status == tool.ToolStatus.IN_USE:
                     raise ValidationError(
-                        f"Tool «{tool.name}» already used in another active task."
+                        f"Tool '{tool.name}' "
+                        f"already used in another active task."
                     )
 
     def save(self, *args, **kwargs):
@@ -60,12 +61,23 @@ class MaintenanceTask(models.Model):
 
 
 class GardenBedTask(models.Model):
-    bed = models.ForeignKey(GardenBed, on_delete=models.CASCADE, related_name="bed_tasks")
-    task = models.ForeignKey(MaintenanceTask, on_delete=models.CASCADE, related_name="bed_tasks")
+    bed = models.ForeignKey(
+        GardenBed,
+        on_delete=models.CASCADE,
+        related_name="bed_tasks"
+    )
+    task = models.ForeignKey(
+        MaintenanceTask,
+        on_delete=models.CASCADE,
+        related_name="bed_tasks"
+    )
 
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=["bed", "task"], name="unique_bed_per_task")
+            models.UniqueConstraint(
+                fields=["bed", "task"],
+                name="unique_bed_per_task"
+            )
         ]
 
     def __str__(self):
@@ -73,8 +85,16 @@ class GardenBedTask(models.Model):
 
 
 class MaterialUsage(models.Model):
-    task = models.ForeignKey(MaintenanceTask, on_delete=models.CASCADE, related_name="materials_used")
-    material = models.ForeignKey(Material, on_delete=models.CASCADE, related_name="usages")
+    task = models.ForeignKey(
+        MaintenanceTask,
+        on_delete=models.CASCADE,
+        related_name="materials_used"
+    )
+    material = models.ForeignKey(
+        Material,
+        on_delete=models.CASCADE,
+        related_name="usages"
+    )
     quantity_used = models.DecimalField(
         max_digits=7, decimal_places=2,
         validators=[MinValueValidator(0.01)]
@@ -82,20 +102,36 @@ class MaterialUsage(models.Model):
 
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=["task", "material"], name="unique_material_per_task")
+            models.UniqueConstraint(
+                fields=["task", "material"],
+                name="unique_material_per_task"
+            )
         ]
 
     def __str__(self):
-        return f"{self.material.name}: {self.quantity_used} {self.material.unit}"
+        return (f"{self.material.name}: "
+                f"{self.quantity_used} "
+                f"{self.material.unit}")
 
 
 class TaskTool(models.Model):
-    task = models.ForeignKey(MaintenanceTask, on_delete=models.CASCADE, related_name="tools_used")
-    tool = models.ForeignKey(Tool, on_delete=models.CASCADE, related_name="task_tools")
+    task = models.ForeignKey(
+        MaintenanceTask,
+        on_delete=models.CASCADE,
+        related_name="tools_used"
+    )
+    tool = models.ForeignKey(
+        Tool,
+        on_delete=models.CASCADE,
+        related_name="task_tools"
+    )
 
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=["task", "tool"], name="unique_tool_per_task")
+            models.UniqueConstraint(
+                fields=["task", "tool"],
+                name="unique_tool_per_task"
+            )
         ]
 
     def clean(self):
@@ -105,10 +141,13 @@ class TaskTool(models.Model):
         ).exclude(task=self.task).exists()
 
         if conflict_exists:
-            raise ValidationError(f"The «{self.tool.name}» already used in another active task.")
+            raise ValidationError(
+                f"The «{self.tool.name}» already used in another active task."
+            )
 
     def save(self, *args, **kwargs):
         self.full_clean()
         super().save(*args, **kwargs)
+
     def __str__(self):
         return f"{self.tool.name} for {self.task.name}"

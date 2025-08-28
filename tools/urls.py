@@ -1,6 +1,11 @@
 from django.urls import path
 from . import views
-from .views import ToolCreateView, ToolUpdateView, ToolDeleteView, ToolDetailView
+from .views import (
+    ToolCreateView,
+    ToolUpdateView,
+    ToolDeleteView,
+    ToolDetailView
+)
 
 app_name = "tools"
 

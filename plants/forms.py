@@ -1,6 +1,7 @@
 from django import forms
 from .models import BedSection
 
+
 class BedSectionForm(forms.ModelForm):
     class Meta:
         model = BedSection
@@ -24,7 +25,8 @@ class BedSectionForm(forms.ModelForm):
             if total_after_add > bed.capacity:
                 raise forms.ValidationError(
                     f"Adding this section will exceed the bed capacity "
-                    f"({bed.capacity} of plants). It will be {total_after_add}."
+                    f"({bed.capacity} of plants). "
+                    f"It will be {total_after_add}."
                 )
 
         return cleaned_data

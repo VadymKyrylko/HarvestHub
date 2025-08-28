@@ -33,6 +33,7 @@ def register(request):
         form = CustomUserCreationForm()
     return render(request, "accounts/register.html", {"form": form})
 
+
 @login_required
 def worker_dashboard(request):
     return render(request, "accounts/worker_dashboard.html")
