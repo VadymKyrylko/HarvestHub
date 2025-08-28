@@ -20,20 +20,20 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container">
-    <a class="navbar-brand" href="{% url 'plants:bed_list' %}">Garden Manager</a>
+    <a class="navbar-brand" href="{% url 'home' %}">🌱 Harvest Hub</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav me-auto">
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'plants:bed_list' %}">Garden Beds</a>
+          <a class="nav-link" href="{% url 'plants:bed_list' %}">🌍 Garden Beds</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'plants:plant_list' %}">Plants</a>
+          <a class="nav-link" href="{% url 'plants:plant_list' %}">🌱 Plants</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'plants:section_list' %}">Bed Sections</a>
+          <a class="nav-link" href="{% url 'plants:section_list' %}">🔳 Bed Sections</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{% url 'tasks:task_list' %}">📋 Tasks</a>
@@ -49,31 +49,31 @@
         {% if user.is_authenticated %}
           {% if user.role == user.Role.WORKER %}
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'worker_dashboard' %}">Worker Dashboard</a>
+              <a class="nav-link" href="{% url 'worker_dashboard' %}">👨‍🌾 Worker Dashboard</a>
             </li>
           {% elif user.role == user.Role.ADMIN %}
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'admin:index' %}">Admin Panel</a>
+              <a class="nav-link" href="{% url 'admin:index' %}">🏢 Admin Panel</a>
             </li>
           {% endif %}
           <li class="nav-item">
-            <span class="navbar-text me-2">Hello, {{ user.username }}</span>
+            <span class="navbar-text me-2">👋 Hello, {{ user.username }}</span>
           </li>
           <li class="nav-item">
             <form action="{% url 'logout' %}" method="post" class="m-0 p-0" style="display:inline;">
               {% csrf_token %}
               <button type="submit"
                       class="nav-link logout-btn p-0 m-0">
-                Logout
+                🚪 Logout
               </button>
             </form>
           </li>
         {% else %}
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'login' %}">Login</a>
+            <a class="nav-link" href="{% url 'login' %}">🔑 Login</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'register' %}">Register</a>
+            <a class="nav-link" href="{% url 'register' %}">📝 Register</a>
           </li>
         {% endif %}
       </ul>
