@@ -9,3 +9,15 @@ body {
     border-radius: 10px;
     color: #fff;
 }
+.home-card .card-title,
+.home-card .card-text {
+    color: #000000 !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #ffffff !important;
+}
+
+.lead, p {
+    color: #f1f1f1;
+}
