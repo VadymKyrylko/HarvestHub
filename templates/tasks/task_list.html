@@ -6,7 +6,7 @@
 
     <a href="{% url 'tasks:task_add' %}" class="btn btn-primary mb-3">Add New Task</a>
 
-    <form method="get" class="row g-3 mb-4">
+    <form method="get" class="row g-3 mb-4 task-filters">
       {% for field in filter.form %}
         <div class="col-md-3">
           <label for="{{ field.id_for_label }}">{{ field.label }}</label>

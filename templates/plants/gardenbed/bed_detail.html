@@ -1,24 +1,37 @@
 {% extends "base.html" %}
 
+{% block title %}Garden Bed Details{% endblock %}
+
 {% block content %}
-  <div class="container mt-4">
-    <h1>{{ object.name }}</h1>
-    <p><strong>Length:</strong> {{ object.length }} m</p>
-    <p><strong>Width:</strong> {{ object.width }} m</p>
-    <p><strong>Area:</strong> {{ object.area }} m²</p>
-    <h3>Sections</h3>
-    <ul>
-      {% for section in object.sections.all %}
-        <li>
-          {{ section.plant.name }} — {{ section.plant_count }} pcs.
-          (Need {{ section.required_area }} m²)
-        </li>
-      {% empty %}
-        <li>There are no sections</li>
-      {% endfor %}
-    </ul>
-    <a href="{% url 'plants:bed_update' object.pk %}" class="btn btn-warning">Edit</a>
-    <a href="{% url 'plants:bed_delete' object.pk %}" class="btn btn-danger">Delete</a>
-    <a href="{% url 'plants:bed_list' %}" class="btn btn-secondary">Back to List</a>
+  <div class="row justify-content-center mt-4">
+    <div class="col-md-8">
+      <div class="card shadow-sm object-card">
+        <div class="card-header bg-light">
+          <h1 class="mb-0">{{ object.name }}</h1>
+        </div>
+        <div class="card-body">
+          <p><strong>Length:</strong> {{ object.length }} m</p>
+          <p><strong>Width:</strong> {{ object.width }} m</p>
+          <p><strong>Area:</strong> {{ object.area }} m²</p>
+
+          <h3>Sections</h3>
+          <ul>
+            {% for section in object.sections.all %}
+              <li>
+                {{ section.plant.name }} — {{ section.plant_count }} pcs.
+                (Need {{ section.required_area }} m²)
+              </li>
+            {% empty %}
+              <li>There are no sections</li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="card-footer">
+          <a href="{% url 'plants:bed_update' object.pk %}" class="btn btn-warning me-2">Edit</a>
+          <a href="{% url 'plants:bed_delete' object.pk %}" class="btn btn-danger me-2">Delete</a>
+          <a href="{% url 'plants:bed_list' %}" class="btn btn-secondary">Back to List</a>
+        </div>
+      </div>
+    </div>
   </div>
 {% endblock %}

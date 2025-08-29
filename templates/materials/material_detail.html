@@ -1,23 +1,35 @@
 {% extends "base.html" %}
+
+{% block title %}Material Details{% endblock %}
+
 {% block content %}
-  <div class="container mt-4">
-    <h1>{{ material.name }}</h1>
-    <p><strong>Unit:</strong> {{ material.unit }}</p>
+  <div class="row justify-content-center mt-4">
+    <div class="col-md-8">
+      <div class="card shadow-sm object-card">
+        <div class="card-header bg-light">
+          <h1 class="mb-0">{{ material.name }}</h1>
+        </div>
+        <div class="card-body">
+          <p><strong>Unit:</strong> {{ material.unit }}</p>
 
-    <h3>Used in Tasks</h3>
-    <ul>
-      {% for mu in tasks %}
-        <li>
-          <a href="{% url 'tasks:task_detail' mu.task.pk %}">{{ mu.task.name }}</a>
-          — {{ mu.quantity_used }} {{ material.unit }}
-        </li>
-      {% empty %}
-        <li>Not used in any tasks.</li>
-      {% endfor %}
-    </ul>
-
-    <a href="{% url 'materials:material_edit' material.pk %}" class="btn btn-warning">Edit</a>
-    <a href="{% url 'materials:material_delete' material.pk %}" class="btn btn-danger">Delete</a>
-    <a href="{% url 'materials:material_list' %}" class="btn btn-secondary">Back to List</a>
+          <h3>Used in Tasks</h3>
+          <ul>
+            {% for mu in tasks %}
+              <li>
+                <a href="{% url 'tasks:task_detail' mu.task.pk %}">{{ mu.task.name }}</a>
+                — {{ mu.quantity_used }} {{ material.unit }}
+              </li>
+            {% empty %}
+              <li>Not used in any tasks.</li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="card-footer">
+          <a href="{% url 'materials:material_edit' material.pk %}" class="btn btn-warning me-2">Edit</a>
+          <a href="{% url 'materials:material_delete' material.pk %}" class="btn btn-danger me-2">Delete</a>
+          <a href="{% url 'materials:material_list' %}" class="btn btn-secondary">Back to List</a>
+        </div>
+      </div>
+    </div>
   </div>
 {% endblock %}
