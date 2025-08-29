@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block title %}Task Details{% endblock %}
+
+{% block content %}
+  <div class="row justify-content-center mt-4">
+    <div class="col-md-10">
+      <div class="card shadow-sm object-card">
+        <div class="card-header bg-light">
+          <h1 class="mb-0">{{ task.name }}</h1>
+        </div>
+        <div class="card-body">
+          <p><strong>Status:</strong> {{ task.get_status_display }}</p>
+          <p><strong>Scheduled At:</strong> {{ task.scheduled_at|date:"Y-m-d H:i" }}</p>
+          <p><strong>Assigned To:</strong> {{ task.assigned_to|default:"—" }}</p>
+          <p><strong>Description:</strong> {{ task.description|linebreaks }}</p>
+
+          <h3 class="mt-4">
+            Garden Beds
+            <a href="{{ add_bed_url }}" class="btn btn-sm btn-primary ms-2">+ Add</a>
+          </h3>
+          <table class="table table-sm table-bordered align-middle mb-4">
+            <thead>
+            <tr>
+              <th>Name</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for bt in beds %}
+              <tr>
+                <td>{{ bt.bed.name }}</td>
+                <td class="text-center">
+                  <a href="{% url 'tasks:gardenbedtask_edit' bt.pk %}" class="btn btn-sm btn-outline-warning">Edit</a>
+                  <a href="{% url 'tasks:gardenbedtask_delete' bt.pk %}"
+                     class="btn btn-sm btn-outline-danger">Delete</a>
+                </td>
+              </tr>
+            {% empty %}
+              <tr>
+                <td colspan="2" class="text-center">No beds assigned.</td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+
+          <h3>
+            Materials Used
+            <a href="{{ add_material_url }}" class="btn btn-sm btn-primary ms-2">+ Add</a>
+          </h3>
+          <table class="table table-sm table-bordered align-middle mb-4">
+            <thead>
+            <tr>
+              <th>Name</th>
+              <th>Quantity</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for mu in materials %}
+              <tr>
+                <td>{{ mu.material.name }}</td>
+                <td>{{ mu.quantity_used }} {{ mu.material.unit }}</td>
+                <td class="text-center">
+                  <a href="{% url 'tasks:materialusage_edit' mu.pk %}" class="btn btn-sm btn-outline-warning">Edit</a>
+                  <a href="{% url 'tasks:materialusage_delete' mu.pk %}"
+                     class="btn btn-sm btn-outline-danger">Delete</a>
+                </td>
+              </tr>
+            {% empty %}
+              <tr>
+                <td colspan="3" class="text-center">No materials assigned.</td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+
+          <h3>
+            Tools Used
+            <a href="{{ add_tool_url }}" class="btn btn-sm btn-primary ms-2">+ Add</a>
+          </h3>
+          <table class="table table-sm table-bordered align-middle mb-4">
+            <thead>
+            <tr>
+              <th>Name</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for tt in tools %}
+              <tr>
+                <td>{{ tt.tool.name }}</td>
+                <td class="text-center">
+                  <a href="{% url 'tasks:tasktool_edit' tt.pk %}" class="btn btn-sm btn-outline-warning">Edit</a>
+                  <a href="{% url 'tasks:tasktool_delete' tt.pk %}" class="btn btn-sm btn-outline-danger">Delete</a>
+                </td>
+              </tr>
+            {% empty %}
+              <tr>
+                <td colspan="2" class="text-center">No tools assigned.</td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <div class="card-footer">
+          <a href="{% url 'tasks:task_edit' task.pk %}" class="btn btn-warning me-2">Edit Task</a>
+          <a href="{% url 'tasks:task_delete' task.pk %}" class="btn btn-danger me-2">Delete Task</a>
+          <a href="{% url 'tasks:task_list' %}" class="btn btn-secondary">Back to List</a>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

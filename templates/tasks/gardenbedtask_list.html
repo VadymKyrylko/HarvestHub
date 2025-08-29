@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="container mt-4">
+    <h1>Garden Bed Tasks</h1>
+    <a href="{% url 'tasks:gardenbedtask_add' %}" class="btn btn-primary mb-3">Add New Link</a>
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th>Garden Bed</th>
+        <th>Task</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for bt in bedtasks %}
+        <tr>
+          <td>{{ bt.bed.name }}</td>
+          <td>{{ bt.task.name }}</td>
+          <td>
+            <a href="{% url 'tasks:gardenbedtask_edit' bt.pk %}" class="btn btn-sm btn-warning">Edit</a>
+            <a href="{% url 'tasks:gardenbedtask_delete' bt.pk %}" class="btn btn-sm btn-danger">Delete</a>
+          </td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="3">No links found.</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

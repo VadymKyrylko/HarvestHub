@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="container mt-4">
+    <h1>{{ view.object.pk|yesno:"Edit Task Tool,Add Task Tool" }}</h1>
+
+    <form method="post">
+      {% csrf_token %}
+
+      {% include "includes/form_fields.html" with form=form %}
+
+      <button type="submit" class="btn btn-success">Save</button>
+
+      {% if task %}
+        <a href="{% url 'tasks:task_detail' task.id %}" class="btn btn-secondary">Cancel</a>
+      {% else %}
+        <a href="{% url 'tasks:task_list' %}" class="btn btn-secondary">Cancel</a>
+      {% endif %}
+    </form>
+  </div>
+{% endblock %}

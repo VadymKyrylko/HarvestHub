@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="container mt-4">
+    <h1>Garden Beds</h1>
+    <a href="{% url 'plants:bed_create' %}" class="btn btn-primary mb-3">Add New Garden Bed</a>
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Length</th>
+        <th>Width</th>
+        <th>Area (m²)</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for bed in object_list %}
+        <tr>
+          <td>{{ bed.name }}</td>
+          <td>{{ bed.length }}</td>
+          <td>{{ bed.width }}</td>
+          <td>{{ bed.area }}</td>
+          <td>
+            <a href="{% url 'plants:bed_detail' bed.pk %}" class="btn btn-sm btn-info">View</a>
+            <a href="{% url 'plants:bed_update' bed.pk %}" class="btn btn-sm btn-warning">Edit</a>
+            <a href="{% url 'plants:bed_delete' bed.pk %}" class="btn btn-sm btn-danger">Delete</a>
+          </td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="4">No garden beds found.</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

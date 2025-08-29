@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="container mt-4">
+    <h1>{{ tool.name }}</h1>
+    <p><strong>Status:</strong> {{ tool.get_status_display }}</p>
+    <p><strong>Checked Out:</strong> {% if tool.is_checked_out %}Yes{% else %}No{% endif %}</p>
+
+    <h3>Used in Tasks</h3>
+    <ul>
+      {% for tt in tasks %}
+        <li><a href="{% url 'tasks:task_detail' tt.task.pk %}">{{ tt.task.name }}</a></li>
+      {% empty %}
+        <li>Not used in any tasks.</li>
+      {% endfor %}
+    </ul>
+
+    <a href="{% url 'tools:tool_edit' tool.pk %}" class="btn btn-warning">Edit</a>
+    <a href="{% url 'tools:tool_delete' tool.pk %}" class="btn btn-danger">Delete</a>
+    <a href="{% url 'tools:tool_list' %}" class="btn btn-secondary">Back to List</a>
+  </div>
+{% endblock %}

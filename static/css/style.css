@@ -1,0 +1,113 @@
+body {
+    background: url("../images/Garden.png") no-repeat center center fixed;
+    background-size: cover;
+}
+
+.home-overlay {
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 2rem;
+    border-radius: 10px;
+    color: #fff;
+}
+
+.home-card .card-title,
+.home-card .card-text {
+    color: #000000 !important;
+}
+
+.home-register-btn {
+    background-color: #0d3b66;
+    color: #ffffff;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.home-register-btn:hover {
+    background-color: #ffffff;
+    color: #0d3b66;
+    border: 1px solid #0d3b66;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #ffffff !important;
+}
+
+.lead, p {
+    color: #f1f1f1;
+}
+
+.register-card,
+.register-card label,
+.register-card p,
+.register-card a,
+.register-card input,
+.register-card select,
+.register-card textarea {
+    color: #000000 !important;
+}
+
+.object-card,
+.object-card h1,
+.object-card h2,
+.object-card h3,
+.object-card h4,
+.object-card h5,
+.object-card h6,
+.object-card p,
+.object-card li,
+.object-card label,
+.object-card a,
+.object-card input,
+.object-card select,
+.object-card textarea {
+    color: #000000 !important;
+}
+
+.logout-btn-red {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.logout-btn-red:hover {
+    background-color: #a71d2a;
+    color: #fff;
+}
+
+.object-card .card-header,
+.object-card .card-body,
+.object-card .card-footer {
+    color: #000 !important;
+}
+
+.object-card h1,
+.object-card h2,
+.object-card h3,
+.object-card h4,
+.object-card h5,
+.object-card h6 {
+    color: #000 !important;
+}
+
+.object-card p,
+.object-card li,
+.object-card label,
+.object-card input,
+.object-card select,
+.object-card textarea {
+    color: #000 !important;
+}
+
+.object-card a {
+    color: #0d3b66 !important;
+}
+.object-card a:hover {
+    color: #083456 !important;
+}
+
+.task-filters label,
+.task-filters small,
+.task-filters strong {
+    color: #ffffff !important;
+}

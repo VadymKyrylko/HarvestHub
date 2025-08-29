@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="container mt-4">
+    <h1>Plants</h1>
+    <a href="{% url 'plants:plant_create' %}" class="btn btn-primary mb-3">Add New Plant</a>
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Space per plant (m²)</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for plant in plants %}
+        <tr>
+          <td>{{ plant.name }}</td>
+          <td>{{ plant.get_plant_type_display }}</td>
+          <td>{{ plant.space_per_plant }}</td>
+          <td>
+            <a href="{% url 'plants:plant_detail' plant.pk %}" class="btn btn-sm btn-info">View</a>
+            <a href="{% url 'plants:plant_update' plant.pk %}" class="btn btn-sm btn-warning">Edit</a>
+            <a href="{% url 'plants:plant_delete' plant.pk %}" class="btn btn-sm btn-danger">Delete</a>
+          </td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="4">No plants found.</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}
