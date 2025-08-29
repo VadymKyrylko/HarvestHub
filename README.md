@@ -13,8 +13,6 @@ The project is built with **Django** and uses **Bootstrap** for a responsive, co
 - [Usage](#usage)
 - [Database Structure](#database-structure)
 - [Contributing](#contributing)
-- [License](#license)
-
 ---
 
 ## About
