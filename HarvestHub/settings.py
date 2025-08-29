@@ -3,11 +3,11 @@ import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = "django-insecure-jek&+)qv4i+*3@=6g64it)9q70zvr+)+_sh$9&t43pm5r6o!u$"
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "django-insecure-jek&+)qv4i+*3@=6g64it)9q70zvr+)+_sh$9&t43pm5r6o!u$")
 
-DEBUG = True
+DEBUG = os.environ.get("DJANGO_DEBUG", "") != "False"
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["127.0.0.1"]
 
 INSTALLED_APPS = [
     "django.contrib.admin",
