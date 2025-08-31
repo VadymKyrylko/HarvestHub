@@ -50,6 +50,33 @@ class MaintenanceTaskForm(BootstrapModelForm):
                 self.instance.scheduled_at.strftime("%Y-%m-%dT%H:%M")
             )
 
+class MaintenanceTaskFilterForm(forms.Form):
+    scheduled_at__gte = forms.DateField(
+        required=False,
+        label="Date from",
+        widget=forms.DateInput(attrs={"type": "date"})
+    )
+    scheduled_at__lte = forms.DateField(
+        required=False,
+        label="Date to",
+        widget=forms.DateInput(attrs={"type": "date"})
+    )
+    status = forms.ChoiceField(
+        required=False,
+        choices=MaintenanceTask.Status.choices
+    )
+    assigned_to = forms.ModelChoiceField(
+        required=False,
+        queryset=MaintenanceTask.objects.none()
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for name, field in self.fields.items():
+            existing_classes = field.widget.attrs.get("class", "")
+            css_classes = (existing_classes + " form-control").strip()
+            field.widget.attrs["class"] = css_classes
+
 
 class GardenBedTaskForm(BootstrapModelForm):
     class Meta:
