@@ -63,7 +63,7 @@ class MaintenanceTaskFilterForm(forms.Form):
     )
     status = forms.ChoiceField(
         required=False,
-        choices=MaintenanceTask.Status.choices
+        choices=MaintenanceTask.TaskStatus.choices
     )
     assigned_to = forms.ModelChoiceField(
         required=False,
