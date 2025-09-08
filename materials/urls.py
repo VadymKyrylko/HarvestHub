@@ -4,34 +4,15 @@ from .views import (
     MaterialCreateView,
     MaterialUpdateView,
     MaterialDeleteView,
-    MaterialDetailView)
+    MaterialDetailView,
+)
 
 app_name = "materials"
 
 urlpatterns = [
-    path(
-        "",
-        views.MaterialListView.as_view(),
-        name="material_list"
-    ),
-    path(
-        "<int:pk>/",
-        MaterialDetailView.as_view(),
-        name="material_detail"
-    ),
-    path(
-        "add/",
-        MaterialCreateView.as_view(),
-        name="material_add"
-    ),
-    path(
-        "<int:pk>/edit/",
-        MaterialUpdateView.as_view(),
-        name="material_edit"
-    ),
-    path(
-        "<int:pk>/delete/",
-        MaterialDeleteView.as_view(),
-        name="material_delete"
-    ),
+    path("", views.MaterialListView.as_view(), name="material_list"),
+    path("new/", MaterialCreateView.as_view(), name="material_create"),
+    path("<int:pk>/", MaterialDetailView.as_view(), name="material_detail"),
+    path("<int:pk>/edit/", MaterialUpdateView.as_view(), name="material_update"),
+    path("<int:pk>/delete/", MaterialDeleteView.as_view(), name="material_delete"),
 ]
