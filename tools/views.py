@@ -4,7 +4,7 @@ from django.views.generic import (
     CreateView,
     UpdateView,
     DeleteView,
-    DetailView
+    DetailView,
 )
 from .models import Tool
 from .forms import ToolForm

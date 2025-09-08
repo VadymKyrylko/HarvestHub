@@ -1,24 +1,15 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import (
-    CreateView,
-    UpdateView,
-    DeleteView,
-    DetailView
-)
+from django.views.generic import CreateView, UpdateView, DeleteView, DetailView
 from django_filters.views import FilterView
 from django.urls import reverse_lazy
 
 from tasks.filters import MaintenanceTaskFilter
-from tasks.models import (
-    MaintenanceTask,
-    GardenBedTask,
-    MaterialUsage,
-    TaskTool)
+from tasks.models import MaintenanceTask, GardenBedTask, MaterialUsage, TaskTool
 from tasks.forms import (
     MaintenanceTaskForm,
     GardenBedTaskForm,
     MaterialUsageForm,
-    TaskToolForm
+    TaskToolForm,
 )
 from tasks.mixins import TaskObjectPermissionMixin, RelatedTaskPermissionMixin
 
@@ -53,9 +44,15 @@ class TaskDetailView(TaskObjectPermissionMixin, DetailView):
         context["materials"] = task.materials_used.select_related("material")
         context["tools"] = task.tools_used.select_related("tool")
 
-        context["add_bed_url"] = reverse_lazy("tasks:gardenbedtask_add") + f"?task={task.id}"
-        context["add_material_url"] = reverse_lazy("tasks:materialusage_add") + f"?task={task.id}"
-        context["add_tool_url"] = reverse_lazy("tasks:tasktool_add") + f"?task={task.id}"
+        context["add_bed_url"] = (
+            reverse_lazy("tasks:gardenbedtask_add") + f"?task={task.id}"
+        )
+        context["add_material_url"] = (
+            reverse_lazy("tasks:materialusage_add") + f"?task={task.id}"
+        )
+        context["add_tool_url"] = (
+            reverse_lazy("tasks:tasktool_add") + f"?task={task.id}"
+        )
         return context
 
 
@@ -92,10 +89,7 @@ class GardenBedTaskCreateView(RelatedTaskPermissionMixin, CreateView):
         return initial
 
     def get_success_url(self):
-        return reverse_lazy(
-            "tasks:task_detail",
-            kwargs={"pk": self.object.task.id}
-        )
+        return reverse_lazy("tasks:task_detail", kwargs={"pk": self.object.task.id})
 
 
 class GardenBedTaskUpdateView(RelatedTaskPermissionMixin, UpdateView):
@@ -104,10 +98,7 @@ class GardenBedTaskUpdateView(RelatedTaskPermissionMixin, UpdateView):
     template_name = "tasks/gardenbedtask_form.html"
 
     def get_success_url(self):
-        return reverse_lazy(
-            "tasks:task_detail",
-            kwargs={"pk": self.object.task.id}
-        )
+        return reverse_lazy("tasks:task_detail", kwargs={"pk": self.object.task.id})
 
 
 class GardenBedTaskDeleteView(RelatedTaskPermissionMixin, DeleteView):
@@ -115,10 +106,7 @@ class GardenBedTaskDeleteView(RelatedTaskPermissionMixin, DeleteView):
     template_name = "tasks/gardenbedtask_confirm_delete.html"
 
     def get_success_url(self):
-        return reverse_lazy(
-            "tasks:task_detail",
-            kwargs={"pk": self.object.task.id}
-        )
+        return reverse_lazy("tasks:task_detail", kwargs={"pk": self.object.task.id})
 
 
 class MaterialUsageCreateView(RelatedTaskPermissionMixin, CreateView):
@@ -134,10 +122,7 @@ class MaterialUsageCreateView(RelatedTaskPermissionMixin, CreateView):
         return initial
 
     def get_success_url(self):
-        return reverse_lazy(
-            "tasks:task_detail",
-            kwargs={"pk": self.object.task.id}
-        )
+        return reverse_lazy("tasks:task_detail", kwargs={"pk": self.object.task.id})
 
 
 class MaterialUsageUpdateView(RelatedTaskPermissionMixin, UpdateView):
@@ -146,10 +131,7 @@ class MaterialUsageUpdateView(RelatedTaskPermissionMixin, UpdateView):
     template_name = "tasks/materialusage_form.html"
 
     def get_success_url(self):
-        return reverse_lazy(
-            "tasks:task_detail",
-            kwargs={"pk": self.object.task.id}
-        )
+        return reverse_lazy("tasks:task_detail", kwargs={"pk": self.object.task.id})
 
 
 class MaterialUsageDeleteView(RelatedTaskPermissionMixin, DeleteView):
@@ -157,10 +139,7 @@ class MaterialUsageDeleteView(RelatedTaskPermissionMixin, DeleteView):
     template_name = "tasks/materialusage_confirm_delete.html"
 
     def get_success_url(self):
-        return reverse_lazy(
-            "tasks:task_detail",
-            kwargs={"pk": self.object.task.id}
-        )
+        return reverse_lazy("tasks:task_detail", kwargs={"pk": self.object.task.id})
 
 
 class TaskToolCreateView(RelatedTaskPermissionMixin, CreateView):
@@ -185,10 +164,7 @@ class TaskToolCreateView(RelatedTaskPermissionMixin, CreateView):
         return context
 
     def get_success_url(self):
-        return reverse_lazy(
-            "tasks:task_detail",
-            kwargs={"pk": self.object.task.id}
-        )
+        return reverse_lazy("tasks:task_detail", kwargs={"pk": self.object.task.id})
 
 
 class TaskToolUpdateView(RelatedTaskPermissionMixin, UpdateView):
@@ -202,10 +178,7 @@ class TaskToolUpdateView(RelatedTaskPermissionMixin, UpdateView):
         return context
 
     def get_success_url(self):
-        return reverse_lazy(
-            "tasks:task_detail",
-            kwargs={"pk": self.object.task.id}
-        )
+        return reverse_lazy("tasks:task_detail", kwargs={"pk": self.object.task.id})
 
 
 class TaskToolDeleteView(RelatedTaskPermissionMixin, DeleteView):
@@ -213,7 +186,4 @@ class TaskToolDeleteView(RelatedTaskPermissionMixin, DeleteView):
     template_name = "tasks/tasktool_confirm_delete.html"
 
     def get_success_url(self):
-        return reverse_lazy(
-            "tasks:task_detail",
-            kwargs={"pk": self.object.task.id}
-        )
+        return reverse_lazy("tasks:task_detail", kwargs={"pk": self.object.task.id})

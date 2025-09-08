@@ -1,11 +1,5 @@
 from django import forms
-from tasks.models import (
-    MaintenanceTask,
-    GardenBedTask,
-    MaterialUsage,
-    TaskTool,
-    Tool
-)
+from tasks.models import MaintenanceTask, GardenBedTask, MaterialUsage, TaskTool, Tool
 from django.core.exceptions import ValidationError
 
 
@@ -14,6 +8,7 @@ class BootstrapModelForm(forms.ModelForm):
     Base form with auto add
     Bootstrap class 'form-control' and error highlight
     """
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -29,45 +24,38 @@ class BootstrapModelForm(forms.ModelForm):
 class MaintenanceTaskForm(BootstrapModelForm):
     class Meta:
         model = MaintenanceTask
-        fields = [
-            "name",
-            "description",
-            "status",
-            "scheduled_at",
-            "assigned_to"
-        ]
+        fields = ["name", "description", "status", "scheduled_at", "assigned_to"]
         widgets = {
-            "scheduled_at": forms.DateTimeInput(attrs={
-                "type": "datetime-local",
-            }),
+            "scheduled_at": forms.DateTimeInput(
+                attrs={
+                    "type": "datetime-local",
+                }
+            ),
         }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.initial = dict(self.initial)
         if self.instance and self.instance.scheduled_at:
-            self.initial["scheduled_at"] = (
-                self.instance.scheduled_at.strftime("%Y-%m-%dT%H:%M")
+            self.initial["scheduled_at"] = self.instance.scheduled_at.strftime(
+                "%Y-%m-%dT%H:%M"
             )
+
 
 class MaintenanceTaskFilterForm(forms.Form):
     scheduled_at__gte = forms.DateField(
         required=False,
         label="Date from",
-        widget=forms.DateInput(attrs={"type": "date"})
+        widget=forms.DateInput(attrs={"type": "date"}),
     )
     scheduled_at__lte = forms.DateField(
-        required=False,
-        label="Date to",
-        widget=forms.DateInput(attrs={"type": "date"})
+        required=False, label="Date to", widget=forms.DateInput(attrs={"type": "date"})
     )
     status = forms.ChoiceField(
-        required=False,
-        choices=MaintenanceTask.TaskStatus.choices
+        required=False, choices=MaintenanceTask.TaskStatus.choices
     )
     assigned_to = forms.ModelChoiceField(
-        required=False,
-        queryset=MaintenanceTask.objects.none()
+        required=False, queryset=MaintenanceTask.objects.none()
     )
 
     def __init__(self, *args, **kwargs):
@@ -92,9 +80,7 @@ class GardenBedTaskForm(BootstrapModelForm):
             if self.instance.pk:
                 exists = exists.exclude(pk=self.instance.pk)
             if exists.exists():
-                raise ValidationError(
-                    "This bed has already been added to this task."
-                )
+                raise ValidationError("This bed has already been added to this task.")
         return cleaned_data
 
 
@@ -112,9 +98,7 @@ class MaterialUsageForm(BootstrapModelForm):
             if self.instance.pk:
                 exists = exists.exclude(pk=self.instance.pk)
             if exists.exists():
-                raise ValidationError(
-                    "This material is already used in this task."
-                )
+                raise ValidationError("This material is already used in this task.")
         return cleaned_data
 
 
@@ -133,16 +117,12 @@ class TaskToolForm(BootstrapModelForm):
             if self.instance.pk:
                 exists = exists.exclude(pk=self.instance.pk)
             if exists.exists():
-                raise ValidationError(
-                    "This tool is already used in this task."
-                )
+                raise ValidationError("This tool is already used in this task.")
 
             conflict_exists = (
-                tool.task_tools.exclude(
-                    task=task
-                ).filter(
-                    task__status=MaintenanceTask.TaskStatus.IN_PROGRESS
-                ).exists()
+                tool.task_tools.exclude(task=task)
+                .filter(task__status=MaintenanceTask.TaskStatus.IN_PROGRESS)
+                .exists()
             )
             if conflict_exists or tool.status == Tool.ToolStatus.IN_USE:
                 raise ValidationError(

@@ -7,13 +7,10 @@ from django.db.models import Sum
 class GardenBed(models.Model):
     name = models.CharField(max_length=100)
     length = models.DecimalField(
-        max_digits=5,
-        decimal_places=2,
-        validators=[MinValueValidator(0.1)]
+        max_digits=5, decimal_places=2, validators=[MinValueValidator(0.1)]
     )
     width = models.DecimalField(
-        max_digits=5, decimal_places=2,
-        validators=[MinValueValidator(0.1)]
+        max_digits=5, decimal_places=2, validators=[MinValueValidator(0.1)]
     )
     is_processed = models.BooleanField(default=False)
 
@@ -45,14 +42,10 @@ class Plant(models.Model):
 
     name = models.CharField(max_length=100)
     plant_type = models.CharField(
-        max_length=10,
-        choices=PlantType.choices,
-        default=PlantType.VEGETABLE
+        max_length=10, choices=PlantType.choices, default=PlantType.VEGETABLE
     )
     space_per_plant = models.DecimalField(
-        max_digits=5,
-        decimal_places=2,
-        help_text="Required area for one plant, m²"
+        max_digits=5, decimal_places=2, help_text="Required area for one plant, m²"
     )
 
     def __str__(self):
@@ -61,16 +54,10 @@ class Plant(models.Model):
 
 class BedSection(models.Model):
     bed = models.ForeignKey(
-        GardenBed,
-        on_delete=models.CASCADE,
-        related_name="sections"
+        GardenBed, on_delete=models.CASCADE, related_name="sections"
     )
     plant = models.ForeignKey(
-        Plant,
-        on_delete=models.CASCADE,
-        null=True,
-        blank=True,
-        related_name="sections"
+        Plant, on_delete=models.CASCADE, null=True, blank=True, related_name="sections"
     )
     plant_count = models.PositiveIntegerField()
     length = models.DecimalField(
@@ -78,14 +65,14 @@ class BedSection(models.Model):
         decimal_places=2,
         null=True,
         blank=True,
-        validators=[MinValueValidator(0.1)]
+        validators=[MinValueValidator(0.1)],
     )
     width = models.DecimalField(
         max_digits=5,
         decimal_places=2,
         null=True,
         blank=True,
-        validators=[MinValueValidator(0.1)]
+        validators=[MinValueValidator(0.1)],
     )
 
     @property
@@ -109,16 +96,12 @@ class BedSection(models.Model):
             )
 
         total_existing = (
-            BedSection.objects
-            .filter(bed=self.bed)
+            BedSection.objects.filter(bed=self.bed)
             .exclude(pk=self.pk)
             .aggregate(
-                total=Sum(
-                    models.F("plant_count") *
-                    models.F("plant__space_per_plant")
-                )
+                total=Sum(models.F("plant_count") * models.F("plant__space_per_plant"))
             )
-                         )["total"] or 0
+        )["total"] or 0
 
         total_after_add = total_existing + self.required_area
 
@@ -139,5 +122,4 @@ class BedSection(models.Model):
         ordering = ["bed", "plant"]
 
     def __str__(self):
-        return (f"{self.bed.name} - "
-                f"{self.plant.name if self.plant else 'Empty'}")
+        return f"{self.bed.name} - " f"{self.plant.name if self.plant else 'Empty'}"

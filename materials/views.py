@@ -4,7 +4,7 @@ from django.views.generic import (
     CreateView,
     UpdateView,
     DeleteView,
-    DetailView
+    DetailView,
 )
 from .models import Material
 from .forms import MaterialForm

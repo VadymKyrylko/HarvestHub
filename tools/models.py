@@ -10,9 +10,7 @@ class Tool(models.Model):
 
     name = models.CharField(max_length=100, unique=True)
     status = models.CharField(
-        max_length=20,
-        choices=ToolStatus.choices,
-        default=ToolStatus.AVAILABLE
+        max_length=20, choices=ToolStatus.choices, default=ToolStatus.AVAILABLE
     )
     is_checked_out = models.BooleanField(default=False)
 

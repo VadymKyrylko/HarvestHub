@@ -4,7 +4,7 @@ from django.views.generic import (
     DetailView,
     CreateView,
     UpdateView,
-    DeleteView
+    DeleteView,
 )
 from plants.models import GardenBed, Plant, BedSection
 
@@ -98,10 +98,8 @@ class BedSectionListView(ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        return (
-            BedSection.objects
-            .select_related("bed", "plant")
-            .order_by("bed__name", "plant__name")
+        return BedSection.objects.select_related("bed", "plant").order_by(
+            "bed__name", "plant__name"
         )
 
 

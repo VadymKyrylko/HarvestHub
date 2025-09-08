@@ -11,7 +11,7 @@ def update_tools_after_status_change(sender, instance, **kwargs):
     If the status is IN_PROGRESS → the tools become IN_USE
     If the status is DONE → the tools become AVAILABLE
     """
-    for tt in instance.tools_used.select_related('tool'):
+    for tt in instance.tools_used.select_related("tool"):
         tool = tt.tool
         if instance.status == MaintenanceTask.TaskStatus.IN_PROGRESS:
             tool.status = Tool.ToolStatus.IN_USE

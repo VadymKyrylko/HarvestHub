@@ -9,9 +9,7 @@ class Material(models.Model):
 
     name = models.CharField(max_length=100, unique=True)
     unit = models.CharField(
-        max_length=10,
-        choices=Unit.choices,
-        help_text="Unit of measurement"
+        max_length=10, choices=Unit.choices, help_text="Unit of measurement"
     )
 
     def __str__(self):

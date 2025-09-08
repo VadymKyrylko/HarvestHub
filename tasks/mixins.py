@@ -5,11 +5,7 @@ from .models import MaintenanceTask
 class TaskObjectPermissionMixin:
     def has_permission(self, obj):
         user = self.request.user
-        return (
-            user.is_staff
-            or user.is_superuser
-            or obj.assigned_to == user
-        )
+        return user.is_staff or user.is_superuser or obj.assigned_to == user
 
     def get_object(self, queryset=None):
         obj = super().get_object(queryset)
@@ -21,14 +17,9 @@ class TaskObjectPermissionMixin:
 class RelatedTaskPermissionMixin:
     def has_task_permission(self, task):
         user = self.request.user
-        return (
-            user.is_staff
-            or user.is_superuser
-            or task.assigned_to == user
-        )
+        return user.is_staff or user.is_superuser or task.assigned_to == user
 
     def dispatch(self, request, *args, **kwargs):
-        # For CreateView: check task from GET or kwargs
         task_id = request.GET.get("task") or kwargs.get("pk")
         if task_id and not hasattr(self, "object"):
             try:
@@ -36,7 +27,9 @@ class RelatedTaskPermissionMixin:
             except MaintenanceTask.DoesNotExist:
                 raise PermissionDenied("Task not found.")
             if not self.has_task_permission(task):
-                raise PermissionDenied("You do not have permission to modify this task.")
+                raise PermissionDenied(
+                    "You do not have permission to modify this task."
+                )
         return super().dispatch(request, *args, **kwargs)
 
     def get_object(self, queryset=None):

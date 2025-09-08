@@ -13,9 +13,12 @@ class BedSectionForm(forms.ModelForm):
         plants_in_new_section = cleaned_data.get("plants_count")
 
         if bed and plants_in_new_section is not None:
-            total_existing = BedSection.objects.filter(bed=bed).aggregate(
-                total=forms.models.Sum("plants_count")
-            )["total"] or 0
+            total_existing = (
+                BedSection.objects.filter(bed=bed).aggregate(
+                    total=forms.models.Sum("plants_count")
+                )["total"]
+                or 0
+            )
 
             if self.instance.pk:
                 total_existing -= self.instance.plants_count or 0

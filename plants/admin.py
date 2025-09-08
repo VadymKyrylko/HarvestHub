@@ -31,7 +31,7 @@ class BedSectionAdmin(admin.ModelAdmin):
         "plant",
         "plant_count",
         "required_area",
-        "max_possible_plants"
+        "max_possible_plants",
     )
     list_filter = ("bed", "plant")
 
