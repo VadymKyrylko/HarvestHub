@@ -5,7 +5,7 @@
     <a href="{% if task_id %}{% url 'tasks:task_detail' task_id %}{% else %}{% url 'tasks:task_list' %}{% endif %}"
        class="btn btn-secondary mb-3">Back</a>
     <h1>Task Tools</h1>
-    <a href="{% url 'tasks:tasktool_add' %}" class="btn btn-primary mb-3">Add New Task Tool</a>
+    <a href="{% url 'tasks:tasktool_create' %}" class="btn btn-primary mb-3">Add New Task Tool</a>
     <table class="table table-striped">
       <thead>
       <tr>
@@ -20,7 +20,7 @@
           <td>{{ tt.task.name }}</td>
           <td>{{ tt.tool.name }}</td>
           <td>
-            <a href="{% url 'tasks:tasktool_edit' tt.pk %}" class="btn btn-sm btn-warning">Edit</a>
+            <a href="{% url 'tasks:tasktool_update' tt.pk %}" class="btn btn-sm btn-warning">Edit</a>
             <a href="{% url 'tasks:tasktool_delete' tt.pk %}" class="btn btn-sm btn-danger">Delete</a>
           </td>
         </tr>

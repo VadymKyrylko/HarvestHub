@@ -3,7 +3,7 @@
 {% block content %}
   <div class="container mt-4">
     <h1>Tools</h1>
-    <a href="{% url 'tools:tool_add' %}" class="btn btn-primary mb-3">Add New Tool</a>
+    <a href="{% url 'tools:tool_create' %}" class="btn btn-primary mb-3">Add New Tool</a>
     <table class="table table-striped">
       <thead>
       <tr>
@@ -20,7 +20,7 @@
           <td>{{ tool.get_status_display }}</td>
           <td>{% if tool.is_checked_out %}Yes{% else %}No{% endif %}</td>
           <td>
-            <a href="{% url 'tools:tool_edit' tool.pk %}" class="btn btn-sm btn-warning">Edit</a>
+            <a href="{% url 'tools:tool_update' tool.pk %}" class="btn btn-sm btn-warning">Edit</a>
             <a href="{% url 'tools:tool_delete' tool.pk %}" class="btn btn-sm btn-danger">Delete</a>
           </td>
         </tr>

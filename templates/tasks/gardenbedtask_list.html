@@ -2,7 +2,7 @@
 {% block content %}
   <div class="container mt-4">
     <h1>Garden Bed Tasks</h1>
-    <a href="{% url 'tasks:gardenbedtask_add' %}" class="btn btn-primary mb-3">Add New Link</a>
+    <a href="{% url 'tasks:gardenbedtask_create' %}" class="btn btn-primary mb-3">Add New Link</a>
     <table class="table table-striped">
       <thead>
       <tr>
@@ -17,7 +17,7 @@
           <td>{{ bt.bed.name }}</td>
           <td>{{ bt.task.name }}</td>
           <td>
-            <a href="{% url 'tasks:gardenbedtask_edit' bt.pk %}" class="btn btn-sm btn-warning">Edit</a>
+            <a href="{% url 'tasks:gardenbedtask_update' bt.pk %}" class="btn btn-sm btn-warning">Edit</a>
             <a href="{% url 'tasks:gardenbedtask_delete' bt.pk %}" class="btn btn-sm btn-danger">Delete</a>
           </td>
         </tr>

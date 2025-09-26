@@ -14,7 +14,7 @@
       {% endfor %}
     </ul>
 
-    <a href="{% url 'tools:tool_edit' tool.pk %}" class="btn btn-warning">Edit</a>
+    <a href="{% url 'tools:tool_update' tool.pk %}" class="btn btn-warning">Edit</a>
     <a href="{% url 'tools:tool_delete' tool.pk %}" class="btn btn-danger">Delete</a>
     <a href="{% url 'tools:tool_list' %}" class="btn btn-secondary">Back to List</a>
   </div>

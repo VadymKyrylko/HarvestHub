@@ -4,7 +4,7 @@
   <div class="container mt-4">
     <h1>Maintenance Tasks</h1>
 
-    <a href="{% url 'tasks:task_add' %}" class="btn btn-primary mb-3">Add New Task</a>
+    <a href="{% url 'tasks:task_create' %}" class="btn btn-primary mb-3">Add New Task</a>
 
     <form method="get" class="row g-3 mb-4 task-filters">
       {% for field in filter.form %}
@@ -61,7 +61,7 @@
           <td>{{ task.scheduled_at|date:"Y-m-d H:i" }}</td>
           <td>{{ task.assigned_to|default:"—" }}</td>
           <td>
-            <a href="{% url 'tasks:task_edit' task.pk %}" class="btn btn-sm btn-warning">Edit</a>
+            <a href="{% url 'tasks:task_update' task.pk %}" class="btn btn-sm btn-warning">Edit</a>
             <a href="{% url 'tasks:task_delete' task.pk %}" class="btn btn-sm btn-danger">Delete</a>
           </td>
         </tr>
