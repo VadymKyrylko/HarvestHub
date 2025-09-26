@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import (
     ListView,
@@ -16,7 +17,7 @@ class ToolListView(ListView):
     context_object_name = "tools"
 
 
-class ToolDetailView(DetailView):
+class ToolDetailView(LoginRequiredMixin, DetailView):
     model = Tool
     template_name = "tools/tool_detail.html"
     context_object_name = "tool"
@@ -28,21 +29,21 @@ class ToolDetailView(DetailView):
         return context
 
 
-class ToolCreateView(CreateView):
+class ToolCreateView(LoginRequiredMixin, CreateView):
     model = Tool
     form_class = ToolForm
     template_name = "tools/tool_form.html"
     success_url = reverse_lazy("tools:tool_list")
 
 
-class ToolUpdateView(UpdateView):
+class ToolUpdateView(LoginRequiredMixin, UpdateView):
     model = Tool
     form_class = ToolForm
     template_name = "tools/tool_form.html"
     success_url = reverse_lazy("tools:tool_list")
 
 
-class ToolDeleteView(DeleteView):
+class ToolDeleteView(LoginRequiredMixin, DeleteView):
     model = Tool
     template_name = "tools/tool_confirm_delete.html"
     success_url = reverse_lazy("tools:tool_list")
