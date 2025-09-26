@@ -1,7 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import CreateView, UpdateView, DeleteView, DetailView
 from django_filters.views import FilterView
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 
 from tasks.filters import MaintenanceTaskFilter
 from tasks.models import MaintenanceTask, GardenBedTask, MaterialUsage, TaskTool
@@ -45,35 +45,44 @@ class TaskDetailView(TaskObjectPermissionMixin, DetailView):
         context["tools"] = task.tools_used.select_related("tool")
 
         context["add_bed_url"] = (
-            reverse_lazy("tasks:gardenbedtask_add") + f"?task={task.id}"
+            reverse("tasks:gardenbedtask_create", kwargs={"task_id": task.id})
         )
         context["add_material_url"] = (
-            reverse_lazy("tasks:materialusage_add") + f"?task={task.id}"
+            reverse("tasks:materialusage_create", kwargs={"task_id": task.id})
         )
         context["add_tool_url"] = (
-            reverse_lazy("tasks:tasktool_add") + f"?task={task.id}"
+            reverse("tasks:tasktool_create", kwargs={"task_id": task.id})
         )
         return context
 
 
-class TaskCreateView(CreateView):
+class TaskCreateView(LoginRequiredMixin, CreateView):
     model = MaintenanceTask
     form_class = MaintenanceTaskForm
     template_name = "tasks/task_form.html"
     success_url = reverse_lazy("tasks:task_list")
 
+    login_url = reverse_lazy("login")
+    redirect_field_name = "next"
 
-class TaskUpdateView(TaskObjectPermissionMixin, UpdateView):
+
+class TaskUpdateView(LoginRequiredMixin, TaskObjectPermissionMixin, UpdateView):
     model = MaintenanceTask
     form_class = MaintenanceTaskForm
     template_name = "tasks/task_form.html"
     success_url = reverse_lazy("tasks:task_list")
 
+    login_url = reverse_lazy("login")
+    redirect_field_name = "next"
 
-class TaskDeleteView(TaskObjectPermissionMixin, DeleteView):
+
+class TaskDeleteView(LoginRequiredMixin, TaskObjectPermissionMixin, DeleteView):
     model = MaintenanceTask
     template_name = "tasks/task_confirm_delete.html"
     success_url = reverse_lazy("tasks:task_list")
+
+    login_url = reverse_lazy("login")
+    redirect_field_name = "next"
 
 
 class GardenBedTaskCreateView(RelatedTaskPermissionMixin, CreateView):
