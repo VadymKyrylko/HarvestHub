@@ -34,8 +34,14 @@ urlpatterns = [
     path("sections/", BedSectionListView.as_view(), name="section_list"),
     path("sections/new/", BedSectionCreateView.as_view(), name="section_create"),
     path("sections/<int:pk>/", BedSectionDetailView.as_view(), name="section_detail"),
-    path("sections/<int:pk>/edit/", BedSectionUpdateView.as_view(), name="section_update"),
-    path("sections/<int:pk>/delete/", BedSectionDeleteView.as_view(), name="section_delete"),
+    path(
+        "sections/<int:pk>/edit/", BedSectionUpdateView.as_view(), name="section_update"
+    ),
+    path(
+        "sections/<int:pk>/delete/",
+        BedSectionDeleteView.as_view(),
+        name="section_delete",
+    ),
 ]
 
 app_name = "plants"
