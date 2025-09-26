@@ -3,8 +3,8 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.contrib.auth.views import LoginView
 from django.contrib.auth import login
-from .models import User
-from .forms import CustomUserCreationForm
+from accounts.models import User
+from accounts.forms import CustomUserCreationForm
 
 
 def get_redirect_url_by_role(user):
