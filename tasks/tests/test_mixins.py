@@ -64,17 +64,23 @@ class RelatedTaskPermissionMixinTests(TestCase):
 
     def test_superuser_can_access_with_task_param(self):
         self.client.login(username="testadmin", password="testadminpass")
-        resp = self.client.get(reverse("dummy_related") + f"?task={self.task.pk}")
+        resp = self.client.get(
+            reverse("dummy_related") + f"?task={self.task.pk}"
+        )
         self.assertEqual(resp.status_code, 200)
 
     def test_staff_can_access_with_task_param(self):
         self.client.login(username="teststaff", password="stafftestpass")
-        resp = self.client.get(reverse("dummy_related") + f"?task={self.task.pk}")
+        resp = self.client.get(
+            reverse("dummy_related") + f"?task={self.task.pk}"
+        )
         self.assertEqual(resp.status_code, 200)
 
     def test_owner_can_access_with_task_param(self):
         self.client.login(username="testuser", password="testpass")
-        resp = self.client.get(reverse("dummy_related") + f"?task={self.task.pk}")
+        resp = self.client.get(
+            reverse("dummy_related") + f"?task={self.task.pk}"
+        )
         self.assertEqual(resp.status_code, 200)
 
     def test_task_not_found_returns_404(self):

@@ -12,9 +12,15 @@ class TaskListViewTests(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.owner = User.objects.create_user(username="owner", password="pass")
-        cls.other_user = User.objects.create_user(username="other", password="pass")
-        cls.staff = User.objects.create_user(username="staff", password="pass", is_staff=True)
-        cls.superuser = User.objects.create_user(username="root", password="pass", is_superuser=True)
+        cls.other_user = User.objects.create_user(
+            username="other", password="pass"
+        )
+        cls.staff = User.objects.create_user(
+            username="staff", password="pass", is_staff=True
+        )
+        cls.superuser = User.objects.create_user(
+            username="root", password="pass", is_superuser=True
+        )
         cls.task1 = MaintenanceTask.objects.create(
             name="Owner task",
             scheduled_at=timezone.now(),
@@ -60,9 +66,15 @@ class TaskDetailViewTests(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.owner = User.objects.create_user(username="owner", password="pass")
-        cls.other_user = User.objects.create_user(username="other", password="pass")
-        cls.staff = User.objects.create_user(username="staff", password="pass", is_staff=True)
-        cls.superuser = User.objects.create_user(username="root", password="pass", is_superuser=True)
+        cls.other_user = User.objects.create_user(
+            username="other", password="pass"
+        )
+        cls.staff = User.objects.create_user(
+            username="staff", password="pass", is_staff=True
+        )
+        cls.superuser = User.objects.create_user(
+            username="root", password="pass", is_superuser=True
+        )
 
         cls.task = MaintenanceTask.objects.create(
             name="Owner task",
@@ -72,20 +84,28 @@ class TaskDetailViewTests(TestCase):
 
     def test_superuser_can_access_any_task(self):
         self.client.login(username="root", password="pass")
-        resp = self.client.get(reverse("tasks:task_detail", args=[self.task.pk]))
+        resp = self.client.get(reverse(
+            "tasks:task_detail", args=[self.task.pk]
+        ))
         self.assertEqual(resp.status_code, 200)
 
     def test_staff_can_access_any_task(self):
         self.client.login(username="staff", password="pass")
-        resp = self.client.get(reverse("tasks:task_detail", args=[self.task.pk]))
+        resp = self.client.get(reverse(
+            "tasks:task_detail", args=[self.task.pk]
+        ))
         self.assertEqual(resp.status_code, 200)
 
     def test_owner_can_access_own_task(self):
         self.client.login(username="owner", password="pass")
-        resp = self.client.get(reverse("tasks:task_detail", args=[self.task.pk]))
+        resp = self.client.get(reverse(
+            "tasks:task_detail", args=[self.task.pk]
+        ))
         self.assertEqual(resp.status_code, 200)
 
     def test_other_user_gets_403(self):
         self.client.login(username="other", password="pass")
-        resp = self.client.get(reverse("tasks:task_detail", args=[self.task.pk]))
+        resp = self.client.get(reverse(
+            "tasks:task_detail", args=[self.task.pk]
+        ))
         self.assertEqual(resp.status_code, 403)

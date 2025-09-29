@@ -26,6 +26,14 @@ class DummyRelatedCreateView(RelatedTaskPermissionMixin, View):
 
 
 urlpatterns = [
-    path("dummy-task/<int:pk>/", DummyTaskDetailView.as_view(), name="dummy_task"),
-    path("dummy-related/", DummyRelatedCreateView.as_view(), name="dummy_related"),
+    path(
+        "dummy-task/<int:pk>/",
+        DummyTaskDetailView.as_view(),
+        name="dummy_task"
+    ),
+    path(
+        "dummy-related/",
+        DummyRelatedCreateView.as_view(),
+        name="dummy_related"
+    ),
 ]

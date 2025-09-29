@@ -20,22 +20,33 @@ class TaskCreateViewTests(TestCase):
 
     def test_logged_in_user_can_create_task(self):
         self.client.login(username="user", password="pass")
-        resp = self.client.post(reverse("tasks:task_create"), {
-            "name": "New Task",
-            "scheduled_at": timezone.now(),
-            "status": MaintenanceTask.TaskStatus.PLANNED
-        })
+        resp = self.client.post(
+            reverse("tasks:task_create"),
+            {
+                "name": "New Task",
+                "scheduled_at": timezone.now(),
+                "status": MaintenanceTask.TaskStatus.PLANNED,
+            },
+        )
         self.assertEqual(resp.status_code, 302)
-        self.assertTrue(MaintenanceTask.objects.filter(name="New Task").exists())
+        self.assertTrue(MaintenanceTask.objects
+                        .filter(name="New Task")
+                        .exists())
 
 
 class TaskUpdateViewTests(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.owner = User.objects.create_user(username="owner", password="pass")
-        cls.other_user = User.objects.create_user(username="other", password="pass")
-        cls.staff = User.objects.create_user(username="staff", password="pass", is_staff=True)
-        cls.superuser = User.objects.create_user(username="root", password="pass", is_superuser=True)
+        cls.other_user = User.objects.create_user(
+            username="other", password="pass"
+        )
+        cls.staff = User.objects.create_user(
+            username="staff", password="pass", is_staff=True
+        )
+        cls.superuser = User.objects.create_user(
+            username="root", password="pass", is_superuser=True
+        )
 
         cls.task = MaintenanceTask.objects.create(
             name="Owner task",
@@ -45,44 +56,56 @@ class TaskUpdateViewTests(TestCase):
 
     def test_owner_can_update(self):
         self.client.login(username="owner", password="pass")
-        resp = self.client.post(reverse("tasks:task_update", args=[self.task.pk]), {
-            "name": "Updated Task",
-            "scheduled_at": timezone.now(),
-            "status": MaintenanceTask.TaskStatus.PLANNED
-        })
+        resp = self.client.post(
+            reverse("tasks:task_update", args=[self.task.pk]),
+            {
+                "name": "Updated Task",
+                "scheduled_at": timezone.now(),
+                "status": MaintenanceTask.TaskStatus.PLANNED,
+            },
+        )
         self.assertEqual(resp.status_code, 302)
         self.task.refresh_from_db()
         self.assertEqual(self.task.name, "Updated Task")
 
     def test_staff_can_update(self):
         self.client.login(username="staff", password="pass")
-        resp = self.client.post(reverse("tasks:task_update", args=[self.task.pk]), {
-            "name": "Staff Updated",
-            "scheduled_at": timezone.now(),
-            "status": MaintenanceTask.TaskStatus.PLANNED
-        })
+        resp = self.client.post(
+            reverse("tasks:task_update", args=[self.task.pk]),
+            {
+                "name": "Staff Updated",
+                "scheduled_at": timezone.now(),
+                "status": MaintenanceTask.TaskStatus.PLANNED,
+            },
+        )
         self.assertEqual(resp.status_code, 302)
         self.task.refresh_from_db()
         self.assertEqual(self.task.name, "Staff Updated")
 
     def test_superuser_can_update(self):
         self.client.login(username="root", password="pass")
-        resp = self.client.post(reverse("tasks:task_update", args=[self.task.pk]), {
-            "name": "Root Updated",
-            "scheduled_at": timezone.now(),
-            "status": MaintenanceTask.TaskStatus.PLANNED
-        })
+        resp = self.client.post(
+            reverse("tasks:task_update", args=[self.task.pk]),
+            {
+                "name": "Root Updated",
+                "scheduled_at": timezone.now(),
+                "status": MaintenanceTask.TaskStatus.PLANNED,
+            },
+        )
         self.assertEqual(resp.status_code, 302)
         self.task.refresh_from_db()
         self.assertEqual(self.task.name, "Root Updated")
 
     def test_other_user_cannot_update(self):
         self.client.login(username="other", password="pass")
-        resp = self.client.post(reverse("tasks:task_update", args=[self.task.pk]), {
-            "name": "Hacked",
-            "scheduled_at": timezone.now(),
-            "status": MaintenanceTask.TaskStatus.PLANNED
-        })
+        resp = self.client.post(
+            reverse("tasks:task_update", args=[self.task.pk]),
+            {
+                "name": "Hacked",
+                "scheduled_at": timezone.now(),
+                "status": MaintenanceTask.TaskStatus.PLANNED,
+            },
+        )
         self.assertIn(resp.status_code, [403, 404])
         self.task.refresh_from_db()
         self.assertNotEqual(self.task.name, "Hacked")
@@ -92,9 +115,15 @@ class TaskDeleteViewTests(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.owner = User.objects.create_user(username="owner", password="pass")
-        cls.other_user = User.objects.create_user(username="other", password="pass")
-        cls.staff = User.objects.create_user(username="staff", password="pass", is_staff=True)
-        cls.superuser = User.objects.create_user(username="root", password="pass", is_superuser=True)
+        cls.other_user = User.objects.create_user(
+            username="other", password="pass"
+        )
+        cls.staff = User.objects.create_user(
+            username="staff", password="pass", is_staff=True
+        )
+        cls.superuser = User.objects.create_user(
+            username="root", password="pass", is_superuser=True
+        )
 
         cls.task = MaintenanceTask.objects.create(
             name="Owner task",
@@ -104,24 +133,40 @@ class TaskDeleteViewTests(TestCase):
 
     def test_owner_can_delete(self):
         self.client.login(username="owner", password="pass")
-        resp = self.client.post(reverse("tasks:task_delete", args=[self.task.pk]))
+        resp = self.client.post(reverse(
+            "tasks:task_delete", args=[self.task.pk]
+        ))
         self.assertEqual(resp.status_code, 302)
-        self.assertFalse(MaintenanceTask.objects.filter(pk=self.task.pk).exists())
+        self.assertFalse(MaintenanceTask.objects
+                         .filter(pk=self.task.pk)
+                         .exists())
 
     def test_staff_can_delete(self):
         self.client.login(username="staff", password="pass")
-        resp = self.client.post(reverse("tasks:task_delete", args=[self.task.pk]))
+        resp = self.client.post(reverse(
+            "tasks:task_delete", args=[self.task.pk]
+        ))
         self.assertEqual(resp.status_code, 302)
-        self.assertFalse(MaintenanceTask.objects.filter(pk=self.task.pk).exists())
+        self.assertFalse(MaintenanceTask.objects
+                         .filter(pk=self.task.pk)
+                         .exists())
 
     def test_superuser_can_delete(self):
         self.client.login(username="root", password="pass")
-        resp = self.client.post(reverse("tasks:task_delete", args=[self.task.pk]))
+        resp = self.client.post(reverse(
+            "tasks:task_delete", args=[self.task.pk]
+        ))
         self.assertEqual(resp.status_code, 302)
-        self.assertFalse(MaintenanceTask.objects.filter(pk=self.task.pk).exists())
+        self.assertFalse(MaintenanceTask.objects
+                         .filter(pk=self.task.pk)
+                         .exists())
 
     def test_other_user_cannot_delete(self):
         self.client.login(username="other", password="pass")
-        resp = self.client.post(reverse("tasks:task_delete", args=[self.task.pk]))
+        resp = self.client.post(reverse(
+            "tasks:task_delete", args=[self.task.pk]
+        ))
         self.assertIn(resp.status_code, [403, 404])
-        self.assertTrue(MaintenanceTask.objects.filter(pk=self.task.pk).exists())
+        self.assertTrue(MaintenanceTask.objects
+                        .filter(pk=self.task.pk)
+                        .exists())
