@@ -10,7 +10,9 @@ class TaskObjectPermissionMixin:
     def get_object(self, queryset=None):
         obj = super().get_object(queryset)
         if not self.has_permission(obj):
-            raise PermissionDenied("You do not have permission to view this task.")
+            raise PermissionDenied(
+                "You do not have permission to view this task."
+            )
         return obj
 
 
@@ -36,5 +38,7 @@ class RelatedTaskPermissionMixin:
         obj = super().get_object(queryset)
         task = getattr(obj, "task", None)
         if task and not self.has_task_permission(task):
-            raise PermissionDenied("You do not have permission to modify this task.")
+            raise PermissionDenied(
+                "You do not have permission to modify this task."
+            )
         return obj

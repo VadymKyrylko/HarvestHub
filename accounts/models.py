@@ -34,7 +34,11 @@ class User(AbstractUser):
         WORKER = "WORKER", "Worker"
 
     created_at = models.DateTimeField(auto_now_add=True)
-    role = models.CharField(max_length=20, choices=Role.choices, default=Role.WORKER)
+    role = models.CharField(
+        max_length=20,
+        choices=Role.choices,
+        default=Role.WORKER
+    )
 
     def __str__(self):
         return f"{self.username} ({self.get_role_display()})"

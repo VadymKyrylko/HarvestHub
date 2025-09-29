@@ -49,7 +49,8 @@ class MaintenanceTask(models.Model):
                 )
                 if conflict_exists or tool.status == tool.ToolStatus.IN_USE:
                     raise ValidationError(
-                        f"Tool '{tool.name}' " f"already used in another active task."
+                        f"Tool '{tool.name}' "
+                        f"already used in another active task."
                     )
 
     def save(self, *args, **kwargs):
@@ -67,7 +68,10 @@ class GardenBedTask(models.Model):
 
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=["bed", "task"], name="unique_bed_per_task")
+            models.UniqueConstraint(
+                fields=["bed", "task"],
+                name="unique_bed_per_task"
+            )
         ]
 
     def __str__(self):
@@ -76,7 +80,9 @@ class GardenBedTask(models.Model):
 
 class MaterialUsage(models.Model):
     task = models.ForeignKey(
-        MaintenanceTask, on_delete=models.CASCADE, related_name="materials_used"
+        MaintenanceTask,
+        on_delete=models.CASCADE,
+        related_name="materials_used"
     )
     material = models.ForeignKey(
         Material, on_delete=models.CASCADE, related_name="usages"
@@ -94,7 +100,9 @@ class MaterialUsage(models.Model):
 
     def __str__(self):
         return (
-            f"{self.material.name}: " f"{self.quantity_used} " f"{self.material.unit}"
+            f"{self.material.name}: "
+            f"{self.quantity_used} "
+            f"{self.material.unit}"
         )
 
 
@@ -102,7 +110,11 @@ class TaskTool(models.Model):
     task = models.ForeignKey(
         MaintenanceTask, on_delete=models.CASCADE, related_name="tools_used"
     )
-    tool = models.ForeignKey(Tool, on_delete=models.CASCADE, related_name="task_tools")
+    tool = models.ForeignKey(
+        Tool,
+        on_delete=models.CASCADE,
+        related_name="task_tools"
+    )
 
     class Meta:
         constraints = [

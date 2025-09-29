@@ -45,7 +45,9 @@ class Plant(models.Model):
         max_length=10, choices=PlantType.choices, default=PlantType.VEGETABLE
     )
     space_per_plant = models.DecimalField(
-        max_digits=5, decimal_places=2, help_text="Required area for one plant, m²"
+        max_digits=5,
+        decimal_places=2,
+        help_text="Required area for one plant, m²"
     )
 
     def __str__(self):
@@ -57,7 +59,11 @@ class BedSection(models.Model):
         GardenBed, on_delete=models.CASCADE, related_name="sections"
     )
     plant = models.ForeignKey(
-        Plant, on_delete=models.CASCADE, null=True, blank=True, related_name="sections"
+        Plant,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name="sections"
     )
     plant_count = models.PositiveIntegerField()
     length = models.DecimalField(
@@ -99,7 +105,8 @@ class BedSection(models.Model):
             BedSection.objects.filter(bed=self.bed)
             .exclude(pk=self.pk)
             .aggregate(
-                total=Sum(models.F("plant_count") * models.F("plant__space_per_plant"))
+                total=Sum(models.F("plant_count")
+                          * models.F("plant__space_per_plant"))
             )
         )["total"] or 0
 
@@ -122,4 +129,5 @@ class BedSection(models.Model):
         ordering = ["bed", "plant"]
 
     def __str__(self):
-        return f"{self.bed.name} - " f"{self.plant.name if self.plant else 'Empty'}"
+        return f"{self.bed.name} - "\
+               f"{self.plant.name if self.plant else 'Empty'}"
