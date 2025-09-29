@@ -1,5 +1,10 @@
 from django import forms
-from tasks.models import MaintenanceTask, GardenBedTask, MaterialUsage, TaskTool, Tool
+from tasks.models import (
+    MaintenanceTask,
+    GardenBedTask,
+    MaterialUsage,
+    TaskTool
+)
 from django.core.exceptions import ValidationError
 
 
@@ -24,7 +29,8 @@ class BootstrapModelForm(forms.ModelForm):
 class MaintenanceTaskForm(BootstrapModelForm):
     class Meta:
         model = MaintenanceTask
-        fields = ["name", "description", "status", "scheduled_at", "assigned_to"]
+        fields = ["name", "description", "status",
+                  "scheduled_at", "assigned_to"]
         widgets = {
             "scheduled_at": forms.DateTimeInput(
                 attrs={
@@ -49,7 +55,9 @@ class MaintenanceTaskFilterForm(forms.Form):
         widget=forms.DateInput(attrs={"type": "date"}),
     )
     scheduled_at__lte = forms.DateField(
-        required=False, label="Date to", widget=forms.DateInput(attrs={"type": "date"})
+        required=False,
+        label="Date to",
+        widget=forms.DateInput(attrs={"type": "date"})
     )
     status = forms.ChoiceField(
         required=False, choices=MaintenanceTask.TaskStatus.choices
@@ -80,7 +88,9 @@ class GardenBedTaskForm(BootstrapModelForm):
             if self.instance.pk:
                 exists = exists.exclude(pk=self.instance.pk)
             if exists.exists():
-                raise ValidationError("This bed has already been added to this task.")
+                raise ValidationError(
+                    "This bed has already been added to this task."
+                )
         return cleaned_data
 
 
@@ -98,35 +108,13 @@ class MaterialUsageForm(BootstrapModelForm):
             if self.instance.pk:
                 exists = exists.exclude(pk=self.instance.pk)
             if exists.exists():
-                raise ValidationError("This material is already used in this task.")
+                raise ValidationError(
+                    "This material is already used in this task."
+                )
         return cleaned_data
 
 
 class TaskToolForm(BootstrapModelForm):
     class Meta:
         model = TaskTool
-        fields = ["task", "tool"]
-
-    def clean(self):
-        cleaned_data = super().clean()
-        task = cleaned_data.get("task")
-        tool = cleaned_data.get("tool")
-
-        if task and tool:
-            exists = TaskTool.objects.filter(task=task, tool=tool)
-            if self.instance.pk:
-                exists = exists.exclude(pk=self.instance.pk)
-            if exists.exists():
-                raise ValidationError("This tool is already used in this task.")
-
-            conflict_exists = (
-                tool.task_tools.exclude(task=task)
-                .filter(task__status=MaintenanceTask.TaskStatus.IN_PROGRESS)
-                .exists()
-            )
-            if conflict_exists or tool.status == Tool.ToolStatus.IN_USE:
-                raise ValidationError(
-                    f"The «{tool.name}» already used in another active task."
-                )
-
-        return cleaned_data
+        fields = ["tool"]
