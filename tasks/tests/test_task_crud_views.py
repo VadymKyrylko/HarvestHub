@@ -29,9 +29,9 @@ class TaskCreateViewTests(TestCase):
             },
         )
         self.assertEqual(resp.status_code, 302)
-        self.assertTrue(MaintenanceTask.objects
-                        .filter(name="New Task")
-                        .exists())
+        self.assertTrue(
+            MaintenanceTask.objects.filter(name="New Task").exists()
+        )
 
 
 class TaskUpdateViewTests(TestCase):
@@ -133,40 +133,40 @@ class TaskDeleteViewTests(TestCase):
 
     def test_owner_can_delete(self):
         self.client.login(username="owner", password="pass")
-        resp = self.client.post(reverse(
-            "tasks:task_delete", args=[self.task.pk]
-        ))
+        resp = self.client.post(
+            reverse("tasks:task_delete", args=[self.task.pk])
+        )
         self.assertEqual(resp.status_code, 302)
-        self.assertFalse(MaintenanceTask.objects
-                         .filter(pk=self.task.pk)
-                         .exists())
+        self.assertFalse(
+            MaintenanceTask.objects.filter(pk=self.task.pk).exists()
+        )
 
     def test_staff_can_delete(self):
         self.client.login(username="staff", password="pass")
-        resp = self.client.post(reverse(
-            "tasks:task_delete", args=[self.task.pk]
-        ))
+        resp = self.client.post(
+            reverse("tasks:task_delete", args=[self.task.pk])
+        )
         self.assertEqual(resp.status_code, 302)
-        self.assertFalse(MaintenanceTask.objects
-                         .filter(pk=self.task.pk)
-                         .exists())
+        self.assertFalse(
+            MaintenanceTask.objects.filter(pk=self.task.pk).exists()
+        )
 
     def test_superuser_can_delete(self):
         self.client.login(username="root", password="pass")
-        resp = self.client.post(reverse(
-            "tasks:task_delete", args=[self.task.pk]
-        ))
+        resp = self.client.post(
+            reverse("tasks:task_delete", args=[self.task.pk])
+        )
         self.assertEqual(resp.status_code, 302)
-        self.assertFalse(MaintenanceTask.objects
-                         .filter(pk=self.task.pk)
-                         .exists())
+        self.assertFalse(
+            MaintenanceTask.objects.filter(pk=self.task.pk).exists()
+        )
 
     def test_other_user_cannot_delete(self):
         self.client.login(username="other", password="pass")
-        resp = self.client.post(reverse(
-            "tasks:task_delete", args=[self.task.pk]
-        ))
+        resp = self.client.post(
+            reverse("tasks:task_delete", args=[self.task.pk])
+        )
         self.assertIn(resp.status_code, [403, 404])
-        self.assertTrue(MaintenanceTask.objects
-                        .filter(pk=self.task.pk)
-                        .exists())
+        self.assertTrue(
+            MaintenanceTask.objects.filter(pk=self.task.pk).exists()
+        )

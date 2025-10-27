@@ -84,28 +84,28 @@ class TaskDetailViewTests(TestCase):
 
     def test_superuser_can_access_any_task(self):
         self.client.login(username="root", password="pass")
-        resp = self.client.get(reverse(
-            "tasks:task_detail", args=[self.task.pk]
-        ))
+        resp = self.client.get(
+            reverse("tasks:task_detail", args=[self.task.pk])
+        )
         self.assertEqual(resp.status_code, 200)
 
     def test_staff_can_access_any_task(self):
         self.client.login(username="staff", password="pass")
-        resp = self.client.get(reverse(
-            "tasks:task_detail", args=[self.task.pk]
-        ))
+        resp = self.client.get(
+            reverse("tasks:task_detail", args=[self.task.pk])
+        )
         self.assertEqual(resp.status_code, 200)
 
     def test_owner_can_access_own_task(self):
         self.client.login(username="owner", password="pass")
-        resp = self.client.get(reverse(
-            "tasks:task_detail", args=[self.task.pk]
-        ))
+        resp = self.client.get(
+            reverse("tasks:task_detail", args=[self.task.pk])
+        )
         self.assertEqual(resp.status_code, 200)
 
     def test_other_user_gets_403(self):
         self.client.login(username="other", password="pass")
-        resp = self.client.get(reverse(
-            "tasks:task_detail", args=[self.task.pk]
-        ))
+        resp = self.client.get(
+            reverse("tasks:task_detail", args=[self.task.pk])
+        )
         self.assertEqual(resp.status_code, 403)
