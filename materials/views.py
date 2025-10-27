@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import (
     ListView,
@@ -28,21 +29,21 @@ class MaterialDetailView(DetailView):
         return context
 
 
-class MaterialCreateView(CreateView):
+class MaterialCreateView(LoginRequiredMixin, CreateView):
     model = Material
     form_class = MaterialForm
     template_name = "materials/material_form.html"
     success_url = reverse_lazy("materials:material_list")
 
 
-class MaterialUpdateView(UpdateView):
+class MaterialUpdateView(LoginRequiredMixin, UpdateView):
     model = Material
     form_class = MaterialForm
     template_name = "materials/material_form.html"
     success_url = reverse_lazy("materials:material_list")
 
 
-class MaterialDeleteView(DeleteView):
+class MaterialDeleteView(LoginRequiredMixin, DeleteView):
     model = Material
     template_name = "materials/material_confirm_delete.html"
     success_url = reverse_lazy("materials:material_list")
