@@ -10,14 +10,14 @@
           <h1 class="mb-0">{{ material.name }}</h1>
         </div>
         <div class="card-body">
-          <p><strong>Unit:</strong> {{ material.unit }}</p>
+          <p><strong>Unit:</strong> {{ material.get_unit_display }}</p>
 
           <h3>Used in Tasks</h3>
           <ul>
             {% for mu in tasks %}
               <li>
                 <a href="{% url 'tasks:task_detail' mu.task.pk %}">{{ mu.task.name }}</a>
-                — {{ mu.quantity_used }} {{ material.unit }}
+                — {{ mu.quantity_used }} {{ material.get_unit_display }}
               </li>
             {% empty %}
               <li>Not used in any tasks.</li>
