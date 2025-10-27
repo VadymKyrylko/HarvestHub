@@ -21,7 +21,11 @@ class GardenBed(models.Model):
 
     @property
     def area(self):
-        return self.length * self.width  # m²
+        return self.length * self.width
+
+    @property
+    def capacity(self):
+        return int(self.area)
 
     def __str__(self):
         return self.name
