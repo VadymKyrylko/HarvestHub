@@ -71,11 +71,9 @@ urlpatterns = [
         name="plant_delete"
     ),
     # BedSections
-    path(
-        "sections/",
-        BedSectionListView.as_view(),
-        name="section_list"
-    ),
+    path("sections/",
+         BedSectionListView.as_view(),
+         name="section_list"),
     path(
         "sections/new/",
         BedSectionCreateView.as_view(),

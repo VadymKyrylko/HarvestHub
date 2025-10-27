@@ -13,19 +13,23 @@ urlpatterns = [
     path(
         "",
         views.MaterialListView.as_view(),
-        name="material_list"),
+        name="material_list"
+    ),
     path(
         "new/",
         MaterialCreateView.as_view(),
-        name="material_create"),
+        name="material_create"
+    ),
     path(
         "<int:pk>/",
         MaterialDetailView.as_view(),
-        name="material_detail"),
+        name="material_detail"
+    ),
     path(
         "<int:pk>/update/",
         MaterialUpdateView.as_view(),
-        name="material_update"),
+        name="material_update"
+    ),
     path(
         "<int:pk>/delete/",
         MaterialDeleteView.as_view(),
