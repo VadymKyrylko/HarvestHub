@@ -1,0 +1,120 @@
+from django import forms
+from tasks.models import (
+    MaintenanceTask,
+    GardenBedTask,
+    MaterialUsage,
+    TaskTool
+)
+from django.core.exceptions import ValidationError
+
+
+class BootstrapModelForm(forms.ModelForm):
+    """
+    Base form with auto add
+    Bootstrap class 'form-control' and error highlight
+    """
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        for name, field in self.fields.items():
+            existing_classes = field.widget.attrs.get("class", "")
+            css_classes = existing_classes + " form-control"
+
+            if self.errors.get(name):
+                css_classes += " is-invalid"
+            field.widget.attrs["class"] = css_classes.strip()
+
+
+class MaintenanceTaskForm(BootstrapModelForm):
+    class Meta:
+        model = MaintenanceTask
+        fields = ["name", "description", "status",
+                  "scheduled_at", "assigned_to"]
+        widgets = {
+            "scheduled_at": forms.DateTimeInput(
+                attrs={
+                    "type": "datetime-local",
+                }
+            ),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.initial = dict(self.initial)
+        if self.instance and self.instance.scheduled_at:
+            self.initial["scheduled_at"] = self.instance.scheduled_at.strftime(
+                "%Y-%m-%dT%H:%M"
+            )
+
+
+class MaintenanceTaskFilterForm(forms.Form):
+    scheduled_at__gte = forms.DateField(
+        required=False,
+        label="Date from",
+        widget=forms.DateInput(attrs={"type": "date"}),
+    )
+    scheduled_at__lte = forms.DateField(
+        required=False,
+        label="Date to",
+        widget=forms.DateInput(attrs={"type": "date"})
+    )
+    status = forms.ChoiceField(
+        required=False, choices=MaintenanceTask.TaskStatus.choices
+    )
+    assigned_to = forms.ModelChoiceField(
+        required=False, queryset=MaintenanceTask.objects.none()
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for name, field in self.fields.items():
+            existing_classes = field.widget.attrs.get("class", "")
+            css_classes = (existing_classes + " form-control").strip()
+            field.widget.attrs["class"] = css_classes
+
+
+class GardenBedTaskForm(BootstrapModelForm):
+    class Meta:
+        model = GardenBedTask
+        fields = ["bed", "task"]
+
+    def clean(self):
+        cleaned_data = super().clean()
+        bed = cleaned_data.get("bed")
+        task = cleaned_data.get("task")
+        if bed and task:
+            exists = GardenBedTask.objects.filter(bed=bed, task=task)
+            if self.instance.pk:
+                exists = exists.exclude(pk=self.instance.pk)
+            if exists.exists():
+                raise ValidationError(
+                    "This bed has already been added to this task."
+                )
+        return cleaned_data
+
+
+class MaterialUsageForm(BootstrapModelForm):
+    class Meta:
+        model = MaterialUsage
+        fields = ["task", "material", "quantity_used"]
+
+    def clean(self):
+        cleaned_data = super().clean()
+        task = cleaned_data.get("task")
+        material = cleaned_data.get("material")
+        if task and material:
+            exists = MaterialUsage.objects.filter(task=task, material=material)
+            if self.instance.pk:
+                exists = exists.exclude(pk=self.instance.pk)
+            if exists.exists():
+                raise ValidationError(
+                    "This material is already used in this task."
+                )
+        return cleaned_data
+
+
+class TaskToolForm(BootstrapModelForm):
+    class Meta:
+        model = TaskTool
+        fields = ["tool"]

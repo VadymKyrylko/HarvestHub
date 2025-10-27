@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="container mt-4">
+    <h1>Delete Garden Bed Link</h1>
+    <p>Are you sure you want to remove
+      "<strong>{{ object.bed.name }}</strong>" from task "<strong>{{ object.task.name }}</strong>"?</p>
+    <form method="post">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-danger">Yes, delete</button>
+      <a href="{% url 'tasks:task_detail' object.task.id %}" class="btn btn-secondary">Cancel</a>
+    </form>
+  </div>
+{% endblock %}

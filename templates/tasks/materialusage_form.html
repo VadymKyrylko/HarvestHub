@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="container mt-4">
+    <h1>{{ view.object.pk|yesno:"Edit Material Usage,Add Material Usage" }}</h1>
+    <form method="post">
+      {% csrf_token %}
+
+      {% include "includes/form_fields.html" with form=form %}
+
+      <button type="submit" class="btn btn-success">Save</button>
+      <a href="{% url 'tasks:task_detail' form.instance.task.id|default:request.GET.task %}"
+         class="btn btn-secondary">Cancel</a>
+    </form>
+  </div>
+{% endblock %}

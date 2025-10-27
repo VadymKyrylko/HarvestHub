@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h1>Bed Sections</h1>
+      <a href="{% url 'plants:section_create' %}" class="btn btn-primary">Add New Section</a>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-striped align-middle">
+        <thead>
+        <tr>
+          <th>Garden Bed</th>
+          <th>Plant</th>
+          <th>Plant Count</th>
+          <th>Required Area (m²)</th>
+          <th>Allocated Area (m²)</th>
+          <th class="text-end">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for section in object_list %}
+          <tr>
+            <td>
+              <a href="{% url 'plants:bed_detail' section.bed.pk %}">
+                {{ section.bed.name }}
+              </a>
+            </td>
+            <td>{{ section.plant.name }}</td>
+            <td>{{ section.plant_count }} pcs.</td>
+            <td>{{ section.required_area }} m²</td>
+            <td>
+              {% if section.area %}
+                {{ section.area }} m²
+              {% else %}
+                —
+              {% endif %}
+            </td>
+            <td class="text-end">
+              <a href="{% url 'plants:section_detail' section.pk %}" class="btn btn-info btn-sm text-white">View</a>
+              <a href="{% url 'plants:section_update' section.pk %}" class="btn btn-warning btn-sm">Edit</a>
+              <a href="{% url 'plants:section_delete' section.pk %}" class="btn btn-danger btn-sm">Delete</a>
+            </td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="6" class="text-center text-muted">
+              There are no sections yet.
+              <a href="{% url 'plants:section_create' %}">Create the first one</a>.
+            </td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    {% if is_paginated %}
+      <nav aria-label="Sections pagination">
+        <ul class="pagination justify-content-center">
+          {% if page_obj.has_previous %}
+            <li class="page-item">
+              <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+            </li>
+          {% else %}
+            <li class="page-item disabled"><span class="page-link">Previous</span></li>
+          {% endif %}
+
+          <li class="page-item disabled">
+          <span class="page-link">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+          </span>
+          </li>
+
+          {% if page_obj.has_next %}
+            <li class="page-item">
+              <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+            </li>
+          {% else %}
+            <li class="page-item disabled"><span class="page-link">Next</span></li>
+          {% endif %}
+        </ul>
+      </nav>
+    {% endif %}
+
+    <div class="mt-3">
+      <a href="{% url 'plants:bed_list' %}" class="btn btn-secondary">Back to Beds</a>
+    </div>
+  </div>
+{% endblock %}

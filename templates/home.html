@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Welcome to HarvestHub{% endblock %}
+
+{% block content %}
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <div class="text-center home-overlay">
+    <h1 class="mb-4">🌱 HarvestHub</h1>
+    <p class="lead">
+      An interactive system for planning and managing garden beds, plants, materials, and tools.
+    </p>
+  </div>
+
+  <hr>
+
+  <div class="row text-center mt-5">
+    <div class="col-md-4 mb-4">
+      <div class="card h-100 shadow-sm home-card">
+        <div class="card-body">
+          <h5 class="card-title">Garden Bed Management</h5>
+          <p class="card-text">
+            Create beds, divide them into sections, control their capacity and available space.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-4">
+      <div class="card h-100 shadow-sm home-card">
+        <div class="card-body">
+          <h5 class="card-title">Plant Management</h5>
+          <p class="card-text">
+            Add plants with details about their type and the area required for optimal growth.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-4">
+      <div class="card h-100 shadow-sm home-card">
+        <div class="card-body">
+          <h5 class="card-title">Materials & Tools</h5>
+          <p class="card-text">
+            Keep an organized inventory of gardening materials and tools.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="mt-5 text-center">
+    {% if not user.is_authenticated %}
+      <a href="{% url 'login' %}" class="btn btn-primary btn-lg me-2">🔑 Login</a>
+      <a href="{% url 'register' %}" class="btn btn-lg home-register-btn">📝 Register</a>
+    {% else %}
+      <a href="{% url 'plants:bed_list' %}" class="btn btn-success btn-lg">🚀 Let's Start</a>
+    {% endif %}
+  </div>
+{% endblock %}
