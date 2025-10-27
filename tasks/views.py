@@ -258,7 +258,8 @@ class TaskToolUpdateView(
 
     def get_success_url(self):
         return reverse_lazy(
-            "tasks:task_detail", kwargs={"pk": self.object.task.id}
+            "tasks:task_detail",
+            kwargs={"pk": self.object.task.id}
         )
 
 
