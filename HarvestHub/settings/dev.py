@@ -1,6 +1,4 @@
-from .base import (
-    BASE_DIR,
-)
+from .base import *
 import os
 
 DEBUG = os.environ.get("DJANGO_DEBUG", "") != "False"
