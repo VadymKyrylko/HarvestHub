@@ -1,5 +1,6 @@
 from django import forms
-from .models import BedSection
+from plants.models import BedSection
+from django.db.models import Sum
 
 
 class BedSectionForm(forms.ModelForm):
@@ -10,18 +11,18 @@ class BedSectionForm(forms.ModelForm):
     def clean(self):
         cleaned_data = super().clean()
         bed = cleaned_data.get("bed")
-        plants_in_new_section = cleaned_data.get("plants_count")
+        plants_in_new_section = cleaned_data.get("plant_count")
 
         if bed and plants_in_new_section is not None:
             total_existing = (
                 BedSection.objects.filter(bed=bed).aggregate(
-                    total=forms.models.Sum("plants_count")
+                    total=Sum("plant_count")
                 )["total"]
                 or 0
             )
 
             if self.instance.pk:
-                total_existing -= self.instance.plants_count or 0
+                total_existing -= self.instance.plant_count or 0
 
             total_after_add = total_existing + plants_in_new_section
 
