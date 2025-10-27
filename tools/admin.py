@@ -1,2 +1,9 @@
+from django.contrib import admin
+from .models import Tool
 
-# Register your models here.
+
+@admin.register(Tool)
+class ToolAdmin(admin.ModelAdmin):
+    list_display = ("name", "status", "is_checked_out")
+    list_filter = ("status", "is_checked_out")
+    search_fields = ("name",)
