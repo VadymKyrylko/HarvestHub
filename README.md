@@ -3,6 +3,8 @@
 **HarvestHub** is a web-based system for planning and managing garden beds, plants, materials, tools, and maintenance tasks.  
 The project is built with **Django** and uses **Bootstrap** for a responsive, consistent interface.
 
+Check it out
+Deployed at https://harvesthub-ammz.onrender.com/
 
 Test admin account:
   username: testadmin
